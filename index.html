@@ -219,48 +219,59 @@ function selectMaterial(materialObj, btn){
 
 function calc(){
 
-    let L = parseFloat(document.getElementById("L").value);
-    let W = parseFloat(document.getElementById("W").value);
-    let H = parseFloat(document.getElementById("H").value);
-    let qty = parseFloat(document.getElementById("qty").value);
+let L = parseFloat(document.getElementById("L").value);
+let W = parseFloat(document.getElementById("W").value);
+let H = parseFloat(document.getElementById("H").value);
+let qty = parseFloat(document.getElementById("qty").value);
 
-    if(!L || !W || !H || !qty || !selectedMaterial) return;
+if(!L || !W || !H || !qty || !selectedMaterial) return;
 
+let area;
 
-    let area;
+if(selectedBoxType === "RSC")
+    area = ((40+2*L+2*W)/1000)*((W+H+50)/1000);
 
+else if(selectedBoxType === "5Panel")
+    area = ((2*W+3*H)/1000)*((L+2*H+50)/1000);
 
-    if(selectedBoxType === "RSC")
-        area = ((40+2*L+2*W)/1000)*((W+H+50)/1000);
+else if(selectedBoxType === "Pizza")
+    area = (((H*3)+(W*2)+60)/1000)*
+           (((L+32)+((H*2)+20+((H+3)*2)+12)+50)/1000);
 
-    else if(selectedBoxType === "5Panel")
-        area = ((2*W+3*H)/1000)*((L+2*H+50)/1000);
+else if(selectedBoxType === "Gift")
+    area = ((L*2+W*2+20+30)/1000)*
+           ((W+H+20+(W/2+20+30))/1000);
 
-    else if(selectedBoxType === "Pizza")
-        area = (((H*3)+(W*2)+60)/1000)*
-               (((L+32)+((H*2)+20+((H+3)*2)+12)+50)/1000);
+area *= selectedMaterial.factor;
 
-    else if(selectedBoxType === "Gift")
-        area = ((L*2+W*2+20+30)/1000)*
-               ((W+H+20+(W/2+20+30))/1000);
+let price = Math.min(area*2.2, area+5);
+price = Math.ceil(price/0.05)*0.05;
 
+// ===== Quantity Discount =====
+let discountRate = 0;
 
-    area *= selectedMaterial.factor;
+if(qty >= 1000){
+    discountRate = 0.20;
+} 
+else if(qty >= 500){
+    discountRate = 0.15;
+}
+else if(qty >= 100){
+    discountRate = 0.10;
+}
 
+let discountedPrice = price * (1 - discountRate);
+discountedPrice = Math.ceil(discountedPrice/0.05)*0.05;
 
-    let price = Math.min(area*2.2, area+5);
-    price = Math.ceil(price/0.05)*0.05;
+let total = discountedPrice * qty;
 
-    let total = price * qty;
-
-
-    document.getElementById("result").innerHTML =
-
-        "Box Type: " + selectedBoxType +
-        "<br>Unit Price: RM " + price.toFixed(2) +
-        "<br>Total: RM " + total.toFixed(2) + " (Not including delivery)" +
-        "<br>Processing Time: 5~7 working days" +
-        "<br>Material: " + selectedLayer + " Layer , " + selectedMaterial.name;
+document.getElementById("result").innerHTML =
+    "Box Type: " + selectedBoxType +
+    "<br>Unit Price: RM " + discountedPrice.toFixed(2) +
+    "<br>Total: RM " + total.toFixed(2) + " (Not including delivery)" +
+    "<br>Discount: " + (discountRate*100) + "%" +
+    "<br>Processing Time: 5~7 working days" +
+    "<br>Material: " + selectedLayer + " Layer , " + selectedMaterial.name;
 
 }
 
