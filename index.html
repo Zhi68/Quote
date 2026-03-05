@@ -2,343 +2,397 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MYBOX | Instant Quotation</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background: white;
-            color: #222;
-        }
+<title>MYBOX | Instant Quote</title>
 
-        header {
-            padding: 20px 10%;
-            border-bottom: 1px solid #eee;
-        }
+<style>
 
-        header img {
-            height: 50px;
-        }
+body{
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:white;
+color:#222;
+}
 
-        .page {
-            padding: 60px 10%;
-        }
+header{
+background:#043661;
+padding:20px 10%;
+}
 
-        .section-title {
-            text-align: center;
-            font-size: 32px;
-            margin-bottom: 50px;
-        }
+header img{
+height:50px;
+}
 
-        .box-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 30px;
-        }
+.page{
+padding:60px 10%;
+}
 
-        .box-card {
-            border: 1px solid #ddd;
-            border-radius: 12px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+.section-title{
+text-align:center;
+font-size:32px;
+margin-bottom:50px;
+}
 
-        .box-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
-        }
+.box-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:30px;
+}
 
-        .box-card img {
-            width: 95%;
-            height: 200px;
-            object-fit: cover;
-        }
+.box-card{
+border:1px solid #ddd;
+border-radius:12px;
+overflow:hidden;
+cursor:pointer;
+transition:0.3s;
+}
 
-        .box-card h3 {
-            text-align: center;
-            padding: 15px;
-        }
+.box-card:hover{
+transform:translateY(-5px);
+box-shadow:0 10px 20px rgba(0,0,0,0.08);
+}
 
-        #page2 {
-            display: none;
-        }
+.box-card img{
+width:100%;
+height:200px;
+object-fit:cover;
+}
 
-        .selected-preview {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+.box-card h3{
+text-align:center;
+padding:15px;
+}
 
-        .selected-preview img {
-            width: 500px;
-            max-width: 100%;
-            border-radius: 10px;
-        }
+#page2{
+display:none;
+}
 
-        .form-box {
-            max-width: 600px;
-            margin: auto;
-        }
+.selected-preview{
+text-align:center;
+margin-bottom:30px;
+}
 
-        input {
-            width: 100%;
-            padding: 14px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 16px;
-        }
+.selected-preview img{
+width:450px;
+max-width:100%;
+border-radius:10px;
+}
 
-        .option-btn {
-            padding: 14px 22px;
-            margin: 5px;
-            border: none;
-            border-radius: 8px;
-            background: #ddd;
-            cursor: pointer;
-            font-size: 16px;
-            transition: 0.2s;
-        }
+.form-box{
+max-width:600px;
+margin:auto;
+}
 
-        .option-btn.active {
-            background: #1e73ff;
-            color: white;
-            transform: scale(1.08);
-            box-shadow: 0 4px 12px rgba(30, 115, 255, 0.4);
-        }
+input{
+width:100%;
+padding:14px;
+margin:10px 0;
+border:1px solid #ccc;
+border-radius:6px;
+font-size:16px;
+}
 
-        #result {
-            margin-top: 20px;
-            padding: 20px;
-            background: #f4f6fa;
-            border-radius: 8px;
-            font-size: 18px;
-        }
+.option-btn{
+padding:14px 22px;
+margin:6px;
+border:none;
+border-radius:8px;
+background:#ddd;
+cursor:pointer;
+font-size:16px;
+transition:0.2s;
+}
 
-        .back-btn {
-            margin-bottom: 20px;
-            background: #888;
-            color: white;
-            padding: 8px 15px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-    </style>
+.option-btn.active{
+background:#1e73ff;
+color:white;
+transform:scale(1.08);
+box-shadow:0 4px 12px rgba(30,115,255,0.4);
+}
+
+#result{
+margin-top:25px;
+padding:20px;
+background:#f4f6fa;
+border-radius:8px;
+font-size:18px;
+line-height:1.6;
+}
+
+.back-btn{
+margin-bottom:20px;
+background:#888;
+color:white;
+padding:8px 15px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+</style>
 </head>
 
 <body>
 
-    <header>
-        <img src="logo.png">
-    </header>
+<header>
+<img src="logo.png">
+</header>
 
-    <!-- PAGE 1 -->
-    <div class="page" id="page1">
-        <div class="section-title">Select Your Box Type</div>
+<!-- PAGE 1 -->
 
-        <div class="box-grid">
-            <div class="box-card" onclick="selectBox('RSC BOX','rsc.png')">
-                <img src="rsc.png">
-                <h3>RSC Box</h3>
-            </div>
+<div class="page" id="page1">
 
-            <div class="box-card" onclick="selectBox('5 Panel BOX','5panel.png')">
-                <img src="5panel.png">
-                <h3>5 Panel Box</h3>
-            </div>
+<div class="section-title">Select Your Box Type</div>
 
-            <div class="box-card" onclick="selectBox('Pizza BOX','pizza.png')">
-                <img src="pizza.png">
-                <h3>Pizza Box</h3>
-            </div>
+<div class="box-grid">
 
-            <div class="box-card" onclick="selectBox('Gift BOX','gift.png')">
-                <img src="gift.png">
-                <h3>Gift Box</h3>
-            </div>
-        </div>
-    </div>
+<div class="box-card" onclick="selectBox('RSC BOX','rsc.png')">
+<img src="rsc.png">
+<h3>RSC Box</h3>
+</div>
 
-    <!-- PAGE 2 -->
-    <div class="page" id="page2">
+<div class="box-card" onclick="selectBox('5 Panel BOX','5panel.png')">
+<img src="5panel.png">
+<h3>5 Panel Box</h3>
+</div>
 
-        <button class="back-btn" onclick="goBack()">← Back</button>
+<div class="box-card" onclick="selectBox('Pizza BOX','pizza.png')">
+<img src="pizza.png">
+<h3>Pizza Box</h3>
+</div>
 
-        <div class="selected-preview">
-            <img id="selectedImage">
-            <h2 id="selectedTitle"></h2>
-        </div>
+<div class="box-card" onclick="selectBox('Gift BOX','gift.png')">
+<img src="gift.png">
+<h3>Gift Box</h3>
+</div>
 
-        <div class="form-box">
+</div>
+</div>
 
-            <input type="number" id="length" placeholder="Length (mm)" oninput="calculatePrice()">
-            <input type="number" id="width" placeholder="Width (mm)" oninput="calculatePrice()">
-            <input type="number" id="height" placeholder="Height (mm)" oninput="calculatePrice()">
-            <input type="number" id="qty" placeholder="Quantity" oninput="calculatePrice()">
 
-            <div>
-                <strong>Select Layer:</strong><br>
-                <button id="btn3" class="option-btn" onclick="selectLayer(this,3)">3 Layer</button>
-                <button id="btn5" class="option-btn" onclick="selectLayer(this,5)">5 Layer</button>
-            </div>
-            <div id="materialOptions" style="margin-top:15px;"></div>
+<!-- PAGE 2 -->
 
-            <div id="result"></div>
+<div class="page" id="page2">
 
-        </div>
-    </div>
+<button class="back-btn" onclick="goBack()">← Back</button>
 
-    <script>
+<div class="selected-preview">
+<img id="selectedImage">
+<h2 id="selectedTitle"></h2>
+</div>
 
-        let selectedBox = "";
-        let selectedLayer = "";
-        let selectedMaterialFactor = null;
+<div class="form-box">
 
-        function selectBox(type, img) {
+<input type="number" id="length" placeholder="Length (mm)" oninput="calculatePrice()">
+<input type="number" id="width" placeholder="Width (mm)" oninput="calculatePrice()">
+<input type="number" id="height" placeholder="Height (mm)" oninput="calculatePrice()">
+<input type="number" id="qty" placeholder="Quantity" oninput="calculatePrice()">
 
-            selectedBox = type;
+<div>
+<strong>Select Layer:</strong><br>
 
-            document.getElementById("selectedImage").src = img;
-            document.getElementById("selectedTitle").innerText = type + " Box";
+<button id="btn3" class="option-btn" onclick="selectLayer(this,3)">3 Layer</button>
+<button id="btn5" class="option-btn" onclick="selectLayer(this,5)">5 Layer</button>
 
-            document.getElementById("page1").style.display = "none";
-            document.getElementById("page2").style.display = "block";
+</div>
 
-            selectedLayer = "";
-            selectedMaterialFactor = null;
+<div id="materialOptions" style="margin-top:15px;"></div>
 
-            document.getElementById("materialOptions").innerHTML = "";
-            document.getElementById("result").innerHTML = "";
+<div id="result"></div>
 
-            document.getElementById("btn3").classList.remove("active");
-            document.getElementById("btn5").classList.remove("active");
+</div>
+</div>
 
-            if (type == "Pizza BOX" || type == "Gift BOX") {
-                document.getElementById("btn5").style.display = "none";
-            } else {
-                document.getElementById("btn5").style.display = "inline-block";
-            }
-        }
 
-        function goBack() {
-            document.getElementById("page1").style.display = "block";
-            document.getElementById("page2").style.display = "none";
-        }
+<script>
 
-        function selectLayer(btn, layer) {
+/* VARIABLES */
 
-            document.getElementById("btn3").classList.remove("active");
-            document.getElementById("btn5").classList.remove("active");
+let selectedBox=""
+let selectedLayer=""
+let selectedMaterialFactor=null
 
-            btn.classList.add("active");
 
-            selectedLayer = layer;
-            selectedMaterialFactor = null;
+/* SELECT BOX */
 
-            let materialDiv = document.getElementById("materialOptions");
-            materialDiv.innerHTML = "";
+function selectBox(type,img){
 
-            /* 加标题 */
-            let title = document.createElement("div");
-            title.innerHTML = "<strong>Select Material:</strong><br>";
-            materialDiv.appendChild(title);
+selectedBox=type
 
-            let materials = {};
+document.getElementById("selectedImage").src=img
+document.getElementById("selectedTitle").innerText=type
 
-            if (layer == 3) {
-                materials = {
-                    "60 LBS": 1.5 * 1.2,
-                    "100 LBS": 1.8 * 1.2,
-                    "150 LBS": 2.5 * 1.2
-                };
-            } else {
-                materials = {
-                    "100 LBS": 2.3 * 1.2,
-                    "150 LBS": 2.7 * 1.2,
-                    "200 LBS": 3.1 * 1.2
-                };
-            }
+document.getElementById("page1").style.display="none"
+document.getElementById("page2").style.display="block"
 
-            for (let name in materials) {
+selectedLayer=""
+selectedMaterialFactor=null
 
-                let mbtn = document.createElement("button");
-                mbtn.className = "option-btn";
-                mbtn.innerText = name;
+document.getElementById("materialOptions").innerHTML=""
+document.getElementById("result").innerHTML=""
 
-                mbtn.onclick = function () {
+document.getElementById("btn3").classList.remove("active")
+document.getElementById("btn5").classList.remove("active")
 
-                    document.querySelectorAll("#materialOptions .option-btn")
-                        .forEach(b => b.classList.remove("active"));
+if(type=="Pizza BOX"||type=="Gift BOX"){
+document.getElementById("btn5").style.display="none"
+}else{
+document.getElementById("btn5").style.display="inline-block"
+}
 
-                    mbtn.classList.add("active");
+}
 
-                    selectedMaterialFactor = {
-                        name: name,
-                        factor: materials[name]
-                    };
 
-                    calculatePrice();
-                };
+/* BACK */
 
-                materialDiv.appendChild(mbtn);
-            }
-        }
+function goBack(){
 
-        function calculatePrice() {
+document.getElementById("page1").style.display="block"
+document.getElementById("page2").style.display="none"
 
-            let L = parseFloat(document.getElementById("length").value);
-            let W = parseFloat(document.getElementById("width").value);
-            let H = parseFloat(document.getElementById("height").value);
-            let quantity = parseFloat(document.getElementById("qty").value);
+}
 
-            if (!L || !W || !H || !quantity || !selectedMaterialFactor) {
-                return;
-            }
 
-            let area = 0;
+/* SELECT LAYER */
 
-            if (selectedBox == "RSC BOX") {
-                area = ((40 + 2 * L + 2 * W) / 1000) * ((W + H + 50) / 1000);
-            }
-            else if (selectedBox == "5 Panel BOX") {
-                area = ((2 * W + 3 * H) / 1000) * (((L + 2 * H) + 50) / 1000);
-            }
-            else if (selectedBox == "Pizza BOX") {
-                area = (((H * 3) + (W * 2) + 60) / 1000) * (((L + 32) + ((H * 2) + 20 + ((H + 3) * 2) + 12) + 50) / 1000);
-            }
-            else if (selectedBox == "Gift BOX") {
-                area = (((L * 2) + (W * 2) + 20 + 30) / 1000) * (((W + H + 20) + ((W / 2) + 20 + 30)) / 1000);
-            }
+function selectLayer(btn,layer){
 
-            let cost = area * selectedMaterialFactor.factor;
-            let price = Math.min(cost * 2.2, cost + 5);
+document.getElementById("btn3").classList.remove("active")
+document.getElementById("btn5").classList.remove("active")
 
-            let discountRate = 0;
-            if (quantity >= 1000) { discountRate = 0.20; }
-            else if (quantity >= 500) { discountRate = 0.15; }
-            else if (quantity >= 100) { discountRate = 0.10; }
+btn.classList.add("active")
 
-            let discountedPrice = price * (1 - discountRate);
-            discountedPrice = Math.ceil(discountedPrice / 0.05) * 0.05;
+selectedLayer=layer
+selectedMaterialFactor=null
 
-            let total = discountedPrice * quantity;
+let materialDiv=document.getElementById("materialOptions")
 
-            document.getElementById("result").innerHTML =
-                "Box Type: " + selectedBox +
-                "<br>Unit Price: RM " + discountedPrice.toFixed(2) +
-                "<br>Total: RM " + total.toFixed(2) + " (Not including delivery)" +
-                "<br>Discount: " + (discountRate * 100) + "%" +
-                "<br>Processing Time: 5~7 working days" +
-                "<br>Material: " + selectedLayer + " Layer , " + selectedMaterialFactor.name;
-        }
+materialDiv.innerHTML="<strong>Select Material:</strong><br>"
 
-    </script>
+let materials={}
+
+if(layer==3){
+
+materials={
+"60 LBS":1.5*1.2,
+"100 LBS":1.8*1.2,
+"150 LBS":2.5*1.2
+}
+
+}else{
+
+materials={
+"100 LBS":2.3*1.2,
+"150 LBS":2.7*1.2,
+"200 LBS":3.1*1.2
+}
+
+}
+
+
+for(let name in materials){
+
+let mbtn=document.createElement("button")
+
+mbtn.className="option-btn"
+
+mbtn.innerText=name
+
+mbtn.onclick=function(){
+
+document.querySelectorAll("#materialOptions .option-btn")
+.forEach(b=>b.classList.remove("active"))
+
+mbtn.classList.add("active")
+
+selectedMaterialFactor={
+name:name,
+factor:materials[name]
+}
+
+calculatePrice()
+
+}
+
+materialDiv.appendChild(mbtn)
+
+}
+
+}
+
+
+
+/* CALCULATE */
+
+function calculatePrice(){
+
+let L=parseFloat(document.getElementById("length").value)
+let W=parseFloat(document.getElementById("width").value)
+let H=parseFloat(document.getElementById("height").value)
+let quantity=parseFloat(document.getElementById("qty").value)
+
+if(!L||!W||!H||!quantity||!selectedMaterialFactor){
+return
+}
+
+/* 限制宽不能大于长 */
+
+if((selectedBox=="Pizza BOX" || selectedBox=="5 Panel BOX") && W>L){
+
+document.getElementById("result").innerHTML=
+"<span style='color:red;font-weight:bold'>Width cannot be greater than Length for this box type.</span>"
+
+return
+}
+
+let area=0
+
+if(selectedBox=="RSC BOX"){
+area=((40+2*L+2*W)/1000)*((W+H+50)/1000)
+}
+
+else if(selectedBox=="5 Panel BOX"){
+area=((2*W+3*H)/1000)*(((L+2*H)+50)/1000)
+}
+
+else if(selectedBox=="Pizza BOX"){
+area=(((H*3)+(W*2)+60)/1000)*(((L+32)+((H*2)+20+((H+3)*2)+12)+50)/1000)
+}
+
+else if(selectedBox=="Gift BOX"){
+area=(((L*2)+(W*2)+20+30)/1000)*(((W+H+20)+((W/2)+20+30))/1000)
+}
+
+let cost=area*selectedMaterialFactor.factor
+
+let price=Math.min(cost*2.2,cost+5)
+
+let discountRate=0
+
+if(quantity>=1000){discountRate=0.20}
+else if(quantity>=500){discountRate=0.15}
+else if(quantity>=100){discountRate=0.10}
+
+let discountedPrice=price*(1-discountRate)
+
+discountedPrice=Math.ceil(discountedPrice/0.05)*0.05
+
+let total=discountedPrice*quantity
+
+document.getElementById("result").innerHTML=
+
+"Box Type: "+selectedBox+
+"<br>Unit Price: RM "+discountedPrice.toFixed(2)+
+"<br>Total: RM "+total.toFixed(2)+" (Not including delivery)"+
+"<br>Discount: "+(discountRate*100)+"%"+
+"<br>Processing Time: 5~7 working days"+
+"<br>Material: "+selectedLayer+" Layer , "+selectedMaterialFactor.name
+
+}
+
+</script>
 
 </body>
-
 </html>
-
