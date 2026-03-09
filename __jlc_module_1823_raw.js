@@ -1,0 +1,1 @@
+1823:function(e,t,n){"use strict";n.d(t,"c",(function(){return o})),n.d(t,"a",(function(){return c})),n.d(t,"b",(function(){return l}));var r=n(39),o=r.a.post("/type/queryPage"),c=r.a.post("/type/get"),l=r.a.post("/type/increaseDieCutFileDownTimes")

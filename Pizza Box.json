@@ -1,0 +1,506 @@
+{
+    "app_version": "1.0.46",
+    "app_id": "PACKCAD_MOCKUP",
+    "design": {
+        "id": "90f5fa59-9e3e-41ea-8d76-d32e0628378c",
+        "name": "MailerBox",
+        "units": "mm",
+        "operations": [
+            {
+                "id": "fbbd7407-57dc-4176-aab6-b7c2b51974ba",
+                "type": "OPERATION_IMPORT_SVG",
+                "name": "Import Dieline 1",
+                "enabled": true,
+                "filename": "MailerBox.svg",
+                "svgString": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg id=\"dieline\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 655.5 670.6\">\n  <defs>\n    <style>\n      .cls-1, .cls-2 {\n        stroke-linecap: round;\n        stroke-linejoin: round;\n      }\n\n      .cls-1, .cls-2, .cls-3 {\n        fill: none;\n      }\n\n      .cls-1, .cls-3 {\n        stroke: #000;\n      }\n\n      .cls-2 {\n        stroke: red;\n      }\n\n      .cls-3 {\n        stroke-miterlimit: 10;\n      }\n    </style>\n  </defs>\n  <line class=\"cls-1\" x1=\"199.5\" y1=\"85.6\" x2=\"186\" y2=\"82.5\"/>\n  <line class=\"cls-1\" x1=\"181.5\" y1=\"373.5\" x2=\"190.5\" y2=\"373.6\"/>\n  <line class=\"cls-1\" x1=\"190.5\" y1=\"585\" x2=\"181.5\" y2=\"585\"/>\n  <line class=\"cls-3\" x1=\"455.9\" y1=\"90\" x2=\"455.9\" y2=\"85.6\"/>\n  <line class=\"cls-3\" x1=\"464.9\" y1=\"373.6\" x2=\"464.9\" y2=\"369\"/>\n  <line class=\"cls-3\" x1=\"464.9\" y1=\"306\" x2=\"455.9\" y2=\"301.6\"/>\n  <path class=\"cls-3\" d=\"M469.5,82.6h47.9c4.6,0,8.3-3.7,8.3-8.3h0c0-31-25.2-56.2-56.2-56.2h0\"/>\n  <path class=\"cls-3\" d=\"M455.9,301.6l51.8-18.9c9.4-3.4,15.7-12.4,15.7-22.4v-129c0-10-6.3-18.9-15.7-22.4l-51.8-18.9\"/>\n  <polyline class=\"cls-1\" points=\"473.9 515.3 455.9 515.3 455.9 443.3 473.9 443.3\"/>\n  <line class=\"cls-1\" x1=\"464.9\" y1=\"585\" x2=\"473.9\" y2=\"585\"/>\n  <line class=\"cls-1\" x1=\"473.9\" y1=\"373.6\" x2=\"464.9\" y2=\"373.6\"/>\n  <polyline class=\"cls-1\" points=\"563.9 580.6 629.5 580.6 629.5 515.3\"/>\n  <polyline class=\"cls-1\" points=\"629.5 443.3 629.5 378 563.9 378\"/>\n  <line class=\"cls-1\" x1=\"545.9\" y1=\"585\" x2=\"563.9\" y2=\"580.6\"/>\n  <line class=\"cls-1\" x1=\"563.9\" y1=\"378\" x2=\"545.9\" y2=\"373.6\"/>\n  <line class=\"cls-1\" x1=\"473.9\" y1=\"585\" x2=\"545.9\" y2=\"585\"/>\n  <line class=\"cls-1\" x1=\"473.9\" y1=\"443.3\" x2=\"473.9\" y2=\"515.3\"/>\n  <line class=\"cls-1\" x1=\"545.9\" y1=\"373.6\" x2=\"473.9\" y2=\"373.6\"/>\n  <polyline class=\"cls-1\" points=\"473.9 443.3 455.9 443.3 455.9 515.3 473.9 515.3\"/>\n  <polyline class=\"cls-1\" points=\"629.5 515.3 637.5 510.3 637.5 448.3 629.5 443.3\"/>\n  <line class=\"cls-1\" x1=\"190.5\" y1=\"652.6\" x2=\"464.9\" y2=\"652.6\"/>\n  <line class=\"cls-1\" x1=\"464.9\" y1=\"589.6\" x2=\"464.9\" y2=\"585\"/>\n  <polyline class=\"cls-1\" points=\"464.9 652.6 549.5 652.6 549.5 589.6 464.9 589.6\"/>\n  <polyline class=\"cls-1\" points=\"464.9 369 549.5 369 549.5 306 464.9 306\"/>\n  <line class=\"cls-1\" x1=\"455.9\" y1=\"85.6\" x2=\"469.5\" y2=\"82.6\"/>\n  <line class=\"cls-1\" x1=\"469.5\" y1=\"18\" x2=\"185.9\" y2=\"18\"/>\n  <line class=\"cls-2\" x1=\"545.9\" y1=\"373.6\" x2=\"545.9\" y2=\"585\"/>\n  <line class=\"cls-2\" x1=\"563.9\" y1=\"580.6\" x2=\"563.9\" y2=\"378\"/>\n  <line class=\"cls-2\" x1=\"473.9\" y1=\"443.3\" x2=\"473.9\" y2=\"373.6\"/>\n  <line class=\"cls-2\" x1=\"473.9\" y1=\"515.3\" x2=\"473.9\" y2=\"585\"/>\n  <line class=\"cls-2\" x1=\"464.9\" y1=\"652.6\" x2=\"464.9\" y2=\"589.6\"/>\n  <line class=\"cls-2\" x1=\"464.9\" y1=\"306\" x2=\"464.9\" y2=\"369\"/>\n  <line class=\"cls-2\" x1=\"455.9\" y1=\"90\" x2=\"455.9\" y2=\"301.6\"/>\n  <line class=\"cls-2\" x1=\"469.5\" y1=\"18\" x2=\"469.5\" y2=\"82.6\"/>\n  <line class=\"cls-2\" x1=\"199.5\" y1=\"301.6\" x2=\"455.9\" y2=\"301.6\"/>\n  <line class=\"cls-2\" x1=\"190.5\" y1=\"373.6\" x2=\"464.9\" y2=\"373.6\"/>\n  <line class=\"cls-2\" x1=\"190.5\" y1=\"585\" x2=\"464.9\" y2=\"585\"/>\n  <line class=\"cls-3\" x1=\"199.5\" y1=\"90.1\" x2=\"199.5\" y2=\"85.6\"/>\n  <line class=\"cls-3\" x1=\"190.5\" y1=\"373.6\" x2=\"190.5\" y2=\"369\"/>\n  <line class=\"cls-3\" x1=\"190.5\" y1=\"306\" x2=\"199.5\" y2=\"301.6\"/>\n  <path class=\"cls-3\" d=\"M186,82.5h-47.9c-4.6,0-8.3-3.7-8.3-8.3h0c0-31,25.2-56.2,56.2-56.2h0\"/>\n  <path class=\"cls-3\" d=\"M199.5,301.6l-51.8-18.9c-9.4-3.4-15.7-12.4-15.7-22.4v-129c0-10,6.3-18.9,15.7-22.4l51.8-18.9\"/>\n  <polyline class=\"cls-1\" points=\"181.5 515.3 199.5 515.3 199.5 443.3 181.5 443.3\"/>\n  <polyline class=\"cls-1\" points=\"91.5 580.5 26 580.5 26 515.3\"/>\n  <polyline class=\"cls-1\" points=\"26 443.3 26 378 91.5 378\"/>\n  <line class=\"cls-1\" x1=\"109.5\" y1=\"585\" x2=\"91.5\" y2=\"580.5\"/>\n  <line class=\"cls-1\" x1=\"91.5\" y1=\"378\" x2=\"109.5\" y2=\"373.5\"/>\n  <line class=\"cls-1\" x1=\"181.5\" y1=\"585\" x2=\"109.5\" y2=\"585\"/>\n  <line class=\"cls-1\" x1=\"181.5\" y1=\"443.3\" x2=\"181.5\" y2=\"515.3\"/>\n  <line class=\"cls-1\" x1=\"109.5\" y1=\"373.5\" x2=\"181.5\" y2=\"373.5\"/>\n  <polyline class=\"cls-1\" points=\"181.5 443.3 199.5 443.3 199.5 515.3 181.5 515.3\"/>\n  <polyline class=\"cls-1\" points=\"26 515.3 18 510.3 18 448.3 26 443.3\"/>\n  <line class=\"cls-1\" x1=\"190.5\" y1=\"589.6\" x2=\"190.5\" y2=\"585\"/>\n  <polyline class=\"cls-1\" points=\"190.5 652.6 105.9 652.5 105.9 589.5 190.5 589.6\"/>\n  <polyline class=\"cls-1\" points=\"190.5 369 105.9 369 105.9 306 190.5 306\"/>\n  <line class=\"cls-2\" x1=\"109.5\" y1=\"373.5\" x2=\"109.5\" y2=\"585\"/>\n  <line class=\"cls-2\" x1=\"91.5\" y1=\"580.5\" x2=\"91.5\" y2=\"378\"/>\n  <line class=\"cls-2\" x1=\"181.5\" y1=\"443.3\" x2=\"181.5\" y2=\"373.5\"/>\n  <line class=\"cls-2\" x1=\"181.5\" y1=\"515.3\" x2=\"181.5\" y2=\"585\"/>\n  <line class=\"cls-2\" x1=\"190.5\" y1=\"652.6\" x2=\"190.5\" y2=\"589.6\"/>\n  <line class=\"cls-2\" x1=\"190.5\" y1=\"306\" x2=\"190.5\" y2=\"369\"/>\n  <line class=\"cls-2\" x1=\"199.5\" y1=\"90.1\" x2=\"199.5\" y2=\"301.6\"/>\n  <line class=\"cls-2\" x1=\"186\" y1=\"18\" x2=\"186\" y2=\"82.5\"/>\n  <line class=\"cls-2\" x1=\"455.9\" y1=\"85.6\" x2=\"199.5\" y2=\"85.6\"/>\n</svg>",
+                "preferredUnits": "mm",
+                "filters": [
+                    {
+                        "style": {
+                            "key": "stroke",
+                            "value": "red",
+                            "tolerance": 0.1
+                        },
+                        "assignment": "U"
+                    },
+                    {
+                        "style": {
+                            "key": "stroke",
+                            "value": "blue",
+                            "tolerance": 0.1
+                        },
+                        "assignment": "U"
+                    },
+                    {
+                        "style": {
+                            "key": "stroke",
+                            "value": "magenta",
+                            "tolerance": 0.1
+                        },
+                        "assignment": "U"
+                    },
+                    {
+                        "style": {
+                            "key": "stroke",
+                            "value": "black",
+                            "tolerance": 0.1
+                        },
+                        "assignment": "B"
+                    }
+                ],
+                "verticesAdded": [
+                    "0aecc9a7-9621-4f9a-aa36-3923fd2d4098",
+                    "55a60126-75c3-4728-9906-4a59ab02ab95",
+                    "f3995c43-ccb7-4db7-a3aa-cef49da84d9a",
+                    "fe08c493-8e61-47c1-8161-1181251e1a16",
+                    "c31a323e-3edc-4632-bbf9-f906032fa73a",
+                    "2db57257-d185-4934-b606-5a5c5e8bf284",
+                    "90c92dce-3eff-46fc-b960-9f23d680e348",
+                    "00082106-55a5-4371-ad8a-1822da610671",
+                    "ce6ea5e9-0e6a-423b-b34c-d8f5ecea0cce",
+                    "fc4cbc22-069d-44e0-96ab-13321dceac3d",
+                    "675b8951-fce2-4c27-a4a6-13f121d7855a",
+                    "d871445e-e46d-45e5-a1e4-daac279ec845",
+                    "20c1338a-5c54-43d7-9e6a-3d76ec028807",
+                    "d14051bf-60c1-4c66-a2b8-f5af5f633de4",
+                    "65378276-9e62-4bfd-bded-15d75fd3c25f",
+                    "fc2874f7-8f19-4dd7-8eba-f79c9cf2d677",
+                    "8a869a55-1ae1-4e44-a9e5-5b1eca1849d0",
+                    "c5a0b910-331a-4483-a33e-b95a5e58e5f8",
+                    "331255a2-af15-427a-99aa-abfa069f89fc",
+                    "97a7117d-94dd-4a58-ad2d-a7921c30f7eb",
+                    "dd2f2152-e782-4ed9-b633-f993b890ef0c",
+                    "8744e83e-7e2a-47fb-931d-dd4a8c53f396",
+                    "3c6e861f-63d7-4a01-99cf-30d4026f6848",
+                    "89832707-6b7f-4571-8bcd-afce8fe2f471",
+                    "ad1806fa-3b44-49c0-860a-6a0092b462d1",
+                    "5f7bd4d8-caf6-42bd-8a4e-aef93480edb7",
+                    "97bfa5da-2871-4819-8c51-2154e73fc98b",
+                    "7819a982-0acc-477a-a215-f3b6e3cdb889",
+                    "df474034-5e0b-4db8-8963-a586376f8a05",
+                    "d48de850-7bd6-4173-aed1-45e972123753",
+                    "9235d82d-e4df-41a0-b6ed-3890f7af524d",
+                    "774868e1-f01a-44c5-baee-9e484cfbcff0",
+                    "d27b9fec-89f3-4b22-8dcc-6e705288323a",
+                    "aaa3575c-28d9-4bdd-8571-b0289db22af0",
+                    "c1a640e4-0f66-4397-bc80-779195c7d830",
+                    "a103574c-cfa6-488b-a52e-8bc2d62eacd7",
+                    "ee9133cf-9829-47ba-a8b1-dfc4decfe5b7",
+                    "62626f17-5c2b-46d0-9dbb-d2a8481594b6",
+                    "4ab79487-0aa2-4c3b-b9d3-b4b00276ef61",
+                    "d87999b3-aef1-4d40-8411-f66ee183fa87",
+                    "ad1d0613-c82d-4810-a0e3-6af3a897c27e",
+                    "997c8c3a-dadb-4f2c-b7a8-e84037c9cea0",
+                    "3a5b3b25-42b3-47d5-8a74-7573db993127",
+                    "5759d445-c594-4f10-9e91-74554ad5c967",
+                    "ba7371e7-be56-45fb-952e-933a5dc521a4",
+                    "359d3717-a18a-4f8c-a1c5-75a14f46fb09",
+                    "729d2737-d630-4b9f-b793-739979aac27e",
+                    "8f0e2b14-1577-4724-bcf7-bfe6dfc3b7f9",
+                    "1f3e2ae7-99b1-480f-9bae-205324449b22",
+                    "ba1f261a-f4d5-4783-b99e-f2ac3e42bbb2",
+                    "24976d4f-4830-4ef3-98c6-8eed0d4c37fa",
+                    "a8ed6498-8041-4709-8261-f4598251a124",
+                    "03eb5bc4-c0ca-42e7-8467-7f2c0ccdb42e",
+                    "d77ccedc-ed81-44cb-8552-ed65d8f044f3",
+                    "03858a97-23e7-496a-bca5-7958a6ea40bc",
+                    "2ef5e908-482a-4607-8ebc-a13c8026805f",
+                    "6e1c0bfa-c902-4f73-9559-d40bbcd39b2b",
+                    "b734fda4-4183-4ee0-adc8-78a73c5cabed",
+                    "8d00a38e-1310-43d8-8ff3-e9dfba72f979",
+                    "358cbceb-2410-4b5b-a3e5-b316dcc61e41",
+                    "50e31655-986d-491a-8317-e95ada95b980",
+                    "860b3058-68fd-4366-bf52-b51fa154d053",
+                    "a44cace4-37df-4b9c-846d-0b34474886f4",
+                    "c57ded61-2d84-45fe-8f5b-134934524cdd",
+                    "c266beae-2ba6-48e1-b3d6-984ddd37f557",
+                    "53479fe5-ee99-4194-9c42-a487b71e78e7",
+                    "540a8fda-d725-42f1-bc24-45f22a964326",
+                    "a6f8ae74-03af-4747-88a3-9381250fcb9d",
+                    "1cef5d4c-8a8b-4721-a733-334bf6029682",
+                    "74bdfa1d-929b-496e-a238-400ef4c55a95",
+                    "95876ff5-40f8-43ec-88e7-485017dbc87a",
+                    "0d35c250-4b1f-44af-8c93-ea58839502dd",
+                    "8d2478f8-6c94-438d-9ccc-a544e1618a00",
+                    "b8d0212f-63c2-4b56-b991-a98f2534261e",
+                    "b0b6a38e-7ace-4925-8cfa-08e4113647e3",
+                    "a50dbf2d-e0c9-4c7d-8dee-e96ccbc48cbb",
+                    "bdf0b569-c21d-49d0-b18c-d5ea3b93ce75",
+                    "ab1f0043-70f9-410d-8c94-282a413b493a",
+                    "20a44d68-353d-452d-88a3-664368baa97e",
+                    "7a80c078-cb01-4039-830c-a1817c8d4e4b",
+                    "13984fca-23fd-408c-9b5d-3a7b1dbef1d8",
+                    "11fe2bae-d515-4995-abcb-1c8b2a062f5c",
+                    "297eb5a7-6a03-4137-b416-37584f49b3d8",
+                    "b830ec78-acd8-45a2-b7e0-cee3dd06c48d",
+                    "7057ffe3-bdbc-43bd-8e25-342d37f0b1e6",
+                    "61446002-8b0b-4c86-af8f-4eec3c16b73c",
+                    "2d61f6dd-e89c-4cca-9cee-a7467ecba6f8",
+                    "d4798f37-2f6d-44d8-8178-b051fe6c7a29",
+                    "5aa7e6f0-4891-41e9-849b-21fd12ef5d98",
+                    "e8ff20d3-ddd9-43fc-b289-01790bc07d97",
+                    "d457f26e-ff58-405f-9b79-67bf50e3b7b4",
+                    "ad71a584-da57-4cca-8277-7c1c2b7f0956",
+                    "70ce4cd7-277b-44ba-852d-e007dbd2c465",
+                    "e51aeff9-00d8-48d5-90a6-fdf8d695d258",
+                    "1e8d56b7-199a-47cd-9fc4-608175a48dce",
+                    "da1b605a-4ac1-416e-aab1-2a62a3e4020e",
+                    "89951318-f816-4afd-bdbc-3f5ca47ebd37",
+                    "c1aa03e6-d992-4c69-ba81-f994ed49ac23",
+                    "957ed817-1362-46b8-bb5e-53d17d2ebd96",
+                    "e93b1825-adfb-46eb-a6be-ff4a7356b30f",
+                    "8be91923-1730-4d2c-be77-55517a3439b9",
+                    "5e0f7c0b-ed6c-4fe3-bb0f-41b29dfae53b",
+                    "0a2e391b-643e-43ce-bb7e-08221ab600ac",
+                    "9fc32633-5224-4858-9424-888d92209946",
+                    "9f9498cc-2e89-4136-a974-10d1f0965202",
+                    "90001773-c8ba-40f6-a48b-b06ba26aa7af"
+                ],
+                "facesAdded": [
+                    "5e3e7f9b-c2d0-4f88-8af1-7a0bcaaeba0f",
+                    "f9ebcdce-d313-4326-9daa-d2e470e2f9d3",
+                    "588573b4-d4e3-478a-8b3b-6ebf1b89f7ba",
+                    "0ade46f3-025b-4ada-b36a-610dda506e76",
+                    "942fcee9-c1fc-46d9-9d7b-b27fae6899cb",
+                    "7318238f-a166-4d54-a703-bc4c3779e19f",
+                    "9309a92c-abfd-42f6-81e0-e8422252209c",
+                    "09d61257-1103-461f-b781-fba8eefdf993",
+                    "9a3d8bc8-8527-482b-b830-3db0997c5e16",
+                    "583e801b-c72f-407c-a8c0-b15ba6ed0db3",
+                    "7cbfc33f-dbf0-4d51-b013-a3bfe53bfa3f",
+                    "27956d2c-ed06-4f35-ae49-323b09757564",
+                    "29d151dd-4300-4ffc-a187-d81584e95b3f",
+                    "ca6e6c0f-a756-43a9-b3ae-ecb399e00265",
+                    "214c02a2-876e-4155-9cce-1c7a20c5fd3d",
+                    "e45a901b-6d20-48f3-af8e-a512f8aa1b26",
+                    "d5592663-f505-45dc-9cac-8c5ccfb6dd67",
+                    "58146872-e677-47d9-ba8a-e09e457fb52f",
+                    "d9a725e6-b6a5-4c83-8b73-ced6ec7b4a1b"
+                ]
+            },
+            {
+                "id": "9a0f28ad-75a2-4052-a782-dacd7b6aaf1f",
+                "type": "OPERATION_TRANSFORM_3D_ROTATE_AXIS_ANGLE",
+                "name": "Import Dieline 1",
+                "enabled": true,
+                "originPositionOrElement": [
+                    0,
+                    0,
+                    0
+                ],
+                "axisOrientationOrElement": [
+                    0,
+                    1,
+                    0
+                ],
+                "angleDegrees": 180
+            },
+            {
+                "id": "04a8999d-d3d3-41d8-88db-d8d8c38c0a4a",
+                "type": "OPERATION_FOLDING_SETUP",
+                "name": "Folding Setup 1",
+                "enabled": true,
+                "fixedFaceID": "942fcee9-c1fc-46d9-9d7b-b27fae6899cb"
+            },
+            {
+                "id": "47e30291-043e-4806-b21c-7e308cc21327",
+                "type": "OPERATION_ORIGAMI_SIMULATION",
+                "name": "Folding Keyframe 1",
+                "enabled": true,
+                "foldingEdgeGroups": [
+                    {
+                        "edgeIDs": [
+                            "9235d82d-e4df-41a0-b6ed-3890f7af524d-aaa3575c-28d9-4bdd-8571-b0289db22af0",
+                            "97bfa5da-2871-4819-8c51-2154e73fc98b-d48de850-7bd6-4173-aed1-45e972123753",
+                            "540a8fda-d725-42f1-bc24-45f22a964326-74bdfa1d-929b-496e-a238-400ef4c55a95",
+                            "95876ff5-40f8-43ec-88e7-485017dbc87a-b8d0212f-63c2-4b56-b991-a98f2534261e"
+                        ],
+                        "targetAngleDegrees": 90,
+                        "enabled": true
+                    }
+                ],
+                "fixedVertexIDs": [
+                    "ce6ea5e9-0e6a-423b-b34c-d8f5ecea0cce",
+                    "4ab79487-0aa2-4c3b-b9d3-b4b00276ef61",
+                    "6e1c0bfa-c902-4f73-9559-d40bbcd39b2b",
+                    "b734fda4-4183-4ee0-adc8-78a73c5cabed",
+                    "8d00a38e-1310-43d8-8ff3-e9dfba72f979",
+                    "358cbceb-2410-4b5b-a3e5-b316dcc61e41",
+                    "50e31655-986d-491a-8317-e95ada95b980",
+                    "d77ccedc-ed81-44cb-8552-ed65d8f044f3",
+                    "53479fe5-ee99-4194-9c42-a487b71e78e7",
+                    "5f7bd4d8-caf6-42bd-8a4e-aef93480edb7",
+                    "d14051bf-60c1-4c66-a2b8-f5af5f633de4",
+                    "dd2f2152-e782-4ed9-b633-f993b890ef0c",
+                    "97a7117d-94dd-4a58-ad2d-a7921c30f7eb",
+                    "331255a2-af15-427a-99aa-abfa069f89fc",
+                    "c5a0b910-331a-4483-a33e-b95a5e58e5f8",
+                    "8a869a55-1ae1-4e44-a9e5-5b1eca1849d0"
+                ]
+            },
+            {
+                "id": "d6a29ce1-cc6b-4ba1-a4b6-488f7234b0f4",
+                "type": "OPERATION_ORIGAMI_SIMULATION",
+                "name": "Folding Keyframe 2",
+                "enabled": true,
+                "foldingEdgeGroups": [
+                    {
+                        "edgeIDs": [
+                            "4ab79487-0aa2-4c3b-b9d3-b4b00276ef61-ce6ea5e9-0e6a-423b-b34c-d8f5ecea0cce",
+                            "53479fe5-ee99-4194-9c42-a487b71e78e7-5f7bd4d8-caf6-42bd-8a4e-aef93480edb7"
+                        ],
+                        "targetAngleDegrees": 90,
+                        "enabled": true
+                    }
+                ],
+                "fixedVertexIDs": [
+                    "ce6ea5e9-0e6a-423b-b34c-d8f5ecea0cce",
+                    "4ab79487-0aa2-4c3b-b9d3-b4b00276ef61",
+                    "6e1c0bfa-c902-4f73-9559-d40bbcd39b2b",
+                    "b734fda4-4183-4ee0-adc8-78a73c5cabed",
+                    "8d00a38e-1310-43d8-8ff3-e9dfba72f979",
+                    "358cbceb-2410-4b5b-a3e5-b316dcc61e41",
+                    "50e31655-986d-491a-8317-e95ada95b980",
+                    "d77ccedc-ed81-44cb-8552-ed65d8f044f3",
+                    "53479fe5-ee99-4194-9c42-a487b71e78e7",
+                    "5f7bd4d8-caf6-42bd-8a4e-aef93480edb7",
+                    "d14051bf-60c1-4c66-a2b8-f5af5f633de4",
+                    "dd2f2152-e782-4ed9-b633-f993b890ef0c",
+                    "97a7117d-94dd-4a58-ad2d-a7921c30f7eb",
+                    "331255a2-af15-427a-99aa-abfa069f89fc",
+                    "c5a0b910-331a-4483-a33e-b95a5e58e5f8",
+                    "8a869a55-1ae1-4e44-a9e5-5b1eca1849d0"
+                ]
+            },
+            {
+                "id": "5ee56d45-d3ba-400b-8b9d-cfbf224e8c04",
+                "type": "OPERATION_ORIGAMI_SIMULATION",
+                "name": "Folding Keyframe 3",
+                "enabled": true,
+                "foldingEdgeGroups": [
+                    {
+                        "edgeIDs": [
+                            "50e31655-986d-491a-8317-e95ada95b980-d77ccedc-ed81-44cb-8552-ed65d8f044f3",
+                            "6e1c0bfa-c902-4f73-9559-d40bbcd39b2b-b734fda4-4183-4ee0-adc8-78a73c5cabed",
+                            "8a869a55-1ae1-4e44-a9e5-5b1eca1849d0-c5a0b910-331a-4483-a33e-b95a5e58e5f8",
+                            "d14051bf-60c1-4c66-a2b8-f5af5f633de4-dd2f2152-e782-4ed9-b633-f993b890ef0c"
+                        ],
+                        "targetAngleDegrees": 90,
+                        "enabled": true
+                    }
+                ],
+                "fixedVertexIDs": [
+                    "ce6ea5e9-0e6a-423b-b34c-d8f5ecea0cce",
+                    "4ab79487-0aa2-4c3b-b9d3-b4b00276ef61",
+                    "6e1c0bfa-c902-4f73-9559-d40bbcd39b2b",
+                    "b734fda4-4183-4ee0-adc8-78a73c5cabed",
+                    "8d00a38e-1310-43d8-8ff3-e9dfba72f979",
+                    "358cbceb-2410-4b5b-a3e5-b316dcc61e41",
+                    "50e31655-986d-491a-8317-e95ada95b980",
+                    "d77ccedc-ed81-44cb-8552-ed65d8f044f3",
+                    "53479fe5-ee99-4194-9c42-a487b71e78e7",
+                    "5f7bd4d8-caf6-42bd-8a4e-aef93480edb7",
+                    "d14051bf-60c1-4c66-a2b8-f5af5f633de4",
+                    "dd2f2152-e782-4ed9-b633-f993b890ef0c",
+                    "97a7117d-94dd-4a58-ad2d-a7921c30f7eb",
+                    "331255a2-af15-427a-99aa-abfa069f89fc",
+                    "c5a0b910-331a-4483-a33e-b95a5e58e5f8",
+                    "8a869a55-1ae1-4e44-a9e5-5b1eca1849d0"
+                ]
+            },
+            {
+                "id": "49dd826d-e603-4029-9d4a-c73b9fd4561b",
+                "type": "OPERATION_ORIGAMI_SIMULATION",
+                "name": "Folding Keyframe 5",
+                "enabled": true,
+                "foldingEdgeGroups": [
+                    {
+                        "edgeIDs": [
+                            "03858a97-23e7-496a-bca5-7958a6ea40bc-2ef5e908-482a-4607-8ebc-a13c8026805f"
+                        ],
+                        "targetAngleDegrees": 90,
+                        "enabled": true
+                    },
+                    {
+                        "edgeIDs": [
+                            "03eb5bc4-c0ca-42e7-8467-7f2c0ccdb42e-a8ed6498-8041-4709-8261-f4598251a124"
+                        ],
+                        "targetAngleDegrees": 90,
+                        "enabled": true
+                    },
+                    {
+                        "edgeIDs": [
+                            "65378276-9e62-4bfd-bded-15d75fd3c25f-fc2874f7-8f19-4dd7-8eba-f79c9cf2d677"
+                        ],
+                        "targetAngleDegrees": 90,
+                        "enabled": true
+                    },
+                    {
+                        "edgeIDs": [
+                            "20c1338a-5c54-43d7-9e6a-3d76ec028807-d871445e-e46d-45e5-a1e4-daac279ec845"
+                        ],
+                        "targetAngleDegrees": 90,
+                        "enabled": true
+                    }
+                ],
+                "fixedVertexIDs": [
+                    "ce6ea5e9-0e6a-423b-b34c-d8f5ecea0cce",
+                    "4ab79487-0aa2-4c3b-b9d3-b4b00276ef61",
+                    "6e1c0bfa-c902-4f73-9559-d40bbcd39b2b",
+                    "b734fda4-4183-4ee0-adc8-78a73c5cabed",
+                    "8d00a38e-1310-43d8-8ff3-e9dfba72f979",
+                    "358cbceb-2410-4b5b-a3e5-b316dcc61e41",
+                    "50e31655-986d-491a-8317-e95ada95b980",
+                    "d77ccedc-ed81-44cb-8552-ed65d8f044f3",
+                    "53479fe5-ee99-4194-9c42-a487b71e78e7",
+                    "5f7bd4d8-caf6-42bd-8a4e-aef93480edb7",
+                    "d14051bf-60c1-4c66-a2b8-f5af5f633de4",
+                    "dd2f2152-e782-4ed9-b633-f993b890ef0c",
+                    "97a7117d-94dd-4a58-ad2d-a7921c30f7eb",
+                    "331255a2-af15-427a-99aa-abfa069f89fc",
+                    "c5a0b910-331a-4483-a33e-b95a5e58e5f8",
+                    "8a869a55-1ae1-4e44-a9e5-5b1eca1849d0"
+                ]
+            },
+            {
+                "id": "eca477f8-f8b6-4478-9c36-8eba0b2d1d56",
+                "type": "OPERATION_ORIGAMI_SIMULATION",
+                "name": "Folding Keyframe 7",
+                "enabled": true,
+                "foldingEdgeGroups": [
+                    {
+                        "edgeIDs": [
+                            "a103574c-cfa6-488b-a52e-8bc2d62eacd7-ee9133cf-9829-47ba-a8b1-dfc4decfe5b7"
+                        ],
+                        "targetAngleDegrees": 90,
+                        "enabled": true
+                    },
+                    {
+                        "edgeIDs": [
+                            "3a5b3b25-42b3-47d5-8a74-7573db993127-d87999b3-aef1-4d40-8411-f66ee183fa87"
+                        ],
+                        "targetAngleDegrees": 90,
+                        "enabled": true
+                    },
+                    {
+                        "edgeIDs": [
+                            "00082106-55a5-4371-ad8a-1822da610671-f3995c43-ccb7-4db7-a3aa-cef49da84d9a"
+                        ],
+                        "targetAngleDegrees": 90,
+                        "enabled": true
+                    },
+                    {
+                        "edgeIDs": [
+                            "1f3e2ae7-99b1-480f-9bae-205324449b22-5759d445-c594-4f10-9e91-74554ad5c967"
+                        ],
+                        "targetAngleDegrees": 90,
+                        "enabled": true
+                    }
+                ],
+                "fixedVertexIDs": [
+                    "ce6ea5e9-0e6a-423b-b34c-d8f5ecea0cce",
+                    "4ab79487-0aa2-4c3b-b9d3-b4b00276ef61",
+                    "6e1c0bfa-c902-4f73-9559-d40bbcd39b2b",
+                    "b734fda4-4183-4ee0-adc8-78a73c5cabed",
+                    "8d00a38e-1310-43d8-8ff3-e9dfba72f979",
+                    "358cbceb-2410-4b5b-a3e5-b316dcc61e41",
+                    "50e31655-986d-491a-8317-e95ada95b980",
+                    "d77ccedc-ed81-44cb-8552-ed65d8f044f3",
+                    "53479fe5-ee99-4194-9c42-a487b71e78e7",
+                    "5f7bd4d8-caf6-42bd-8a4e-aef93480edb7",
+                    "d14051bf-60c1-4c66-a2b8-f5af5f633de4",
+                    "dd2f2152-e782-4ed9-b633-f993b890ef0c",
+                    "97a7117d-94dd-4a58-ad2d-a7921c30f7eb",
+                    "331255a2-af15-427a-99aa-abfa069f89fc",
+                    "c5a0b910-331a-4483-a33e-b95a5e58e5f8",
+                    "8a869a55-1ae1-4e44-a9e5-5b1eca1849d0"
+                ]
+            },
+            {
+                "id": "220d0e01-f619-474c-83bf-7699b3668c10",
+                "type": "OPERATION_ORIGAMI_SIMULATION",
+                "name": "Folding Keyframe 8",
+                "enabled": true,
+                "foldingEdgeGroups": [
+                    {
+                        "edgeIDs": [
+                            "5759d445-c594-4f10-9e91-74554ad5c967-f3995c43-ccb7-4db7-a3aa-cef49da84d9a"
+                        ],
+                        "targetAngleDegrees": 90,
+                        "enabled": true
+                    }
+                ],
+                "fixedVertexIDs": [
+                    "ce6ea5e9-0e6a-423b-b34c-d8f5ecea0cce",
+                    "4ab79487-0aa2-4c3b-b9d3-b4b00276ef61",
+                    "6e1c0bfa-c902-4f73-9559-d40bbcd39b2b",
+                    "b734fda4-4183-4ee0-adc8-78a73c5cabed",
+                    "8d00a38e-1310-43d8-8ff3-e9dfba72f979",
+                    "358cbceb-2410-4b5b-a3e5-b316dcc61e41",
+                    "50e31655-986d-491a-8317-e95ada95b980",
+                    "d77ccedc-ed81-44cb-8552-ed65d8f044f3",
+                    "53479fe5-ee99-4194-9c42-a487b71e78e7",
+                    "5f7bd4d8-caf6-42bd-8a4e-aef93480edb7",
+                    "d14051bf-60c1-4c66-a2b8-f5af5f633de4",
+                    "dd2f2152-e782-4ed9-b633-f993b890ef0c",
+                    "97a7117d-94dd-4a58-ad2d-a7921c30f7eb",
+                    "331255a2-af15-427a-99aa-abfa069f89fc",
+                    "c5a0b910-331a-4483-a33e-b95a5e58e5f8",
+                    "8a869a55-1ae1-4e44-a9e5-5b1eca1849d0"
+                ]
+            },
+            {
+                "id": "f857e18f-9156-4469-ab9c-b300d606a569",
+                "type": "OPERATION_ORIGAMI_SIMULATION",
+                "name": "Folding Keyframe 9",
+                "enabled": true,
+                "foldingEdgeGroups": [
+                    {
+                        "edgeIDs": [
+                            "62626f17-5c2b-46d0-9dbb-d2a8481594b6-c1a640e4-0f66-4397-bc80-779195c7d830"
+                        ],
+                        "targetAngleDegrees": 90,
+                        "enabled": true
+                    }
+                ],
+                "fixedVertexIDs": [
+                    "ce6ea5e9-0e6a-423b-b34c-d8f5ecea0cce",
+                    "4ab79487-0aa2-4c3b-b9d3-b4b00276ef61",
+                    "6e1c0bfa-c902-4f73-9559-d40bbcd39b2b",
+                    "b734fda4-4183-4ee0-adc8-78a73c5cabed",
+                    "8d00a38e-1310-43d8-8ff3-e9dfba72f979",
+                    "358cbceb-2410-4b5b-a3e5-b316dcc61e41",
+                    "50e31655-986d-491a-8317-e95ada95b980",
+                    "d77ccedc-ed81-44cb-8552-ed65d8f044f3",
+                    "53479fe5-ee99-4194-9c42-a487b71e78e7",
+                    "5f7bd4d8-caf6-42bd-8a4e-aef93480edb7",
+                    "d14051bf-60c1-4c66-a2b8-f5af5f633de4",
+                    "dd2f2152-e782-4ed9-b633-f993b890ef0c",
+                    "97a7117d-94dd-4a58-ad2d-a7921c30f7eb",
+                    "331255a2-af15-427a-99aa-abfa069f89fc",
+                    "c5a0b910-331a-4483-a33e-b95a5e58e5f8",
+                    "8a869a55-1ae1-4e44-a9e5-5b1eca1849d0"
+                ]
+            }
+        ],
+        "modifiers": {
+            "OPERATION_THICKNESS": {
+                "id": "OPERATION_THICKNESS",
+                "type": "OPERATION_THICKNESS",
+                "name": "Thickness",
+                "enabled": true,
+                "materialType": "MATERIAL_CORRUGATED_CARDBOARD",
+                "materialSubType": "MATERIAL_CORRUGATED_CARDBOARD_B_FLUTE",
+                "thickness": 3.175,
+                "thicknessOffsetDirection": "THICKNESS_OFFSET_DIRECTION_FRONT",
+                "materialRotationDegrees": 90
+            },
+            "OPERATION_ARTWORK": {
+                "id": "OPERATION_ARTWORK",
+                "type": "OPERATION_ARTWORK",
+                "name": "Artwork",
+                "enabled": true
+            }
+        }
+    }
+}
