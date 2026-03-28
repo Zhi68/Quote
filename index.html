@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -65,6 +65,7 @@ header img {
 
 .logo-text {
   font-weight: 700;
+  letter-spacing: 0.35px;
   letter-spacing: 0.5px;
   font-size: 18px;
 }
@@ -125,7 +126,8 @@ header .sub {
   padding: 8px 12px;
   border-radius: 999px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.35px;
 }
 
 .hero-art {
@@ -133,7 +135,7 @@ header .sub {
   border-radius: 20px;
   background:
     linear-gradient(160deg, rgba(9, 63, 104, 0.88), rgba(0, 167, 160, 0.78)),
-    url("5panel.png") center/cover;
+    url("assets/images/5panel.png") center/cover;
   position: relative;
   overflow: hidden;
   box-shadow: var(--shadow);
@@ -270,7 +272,8 @@ header .sub {
 label {
   display: block;
   margin-top: 10px;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.35px;
   font-size: 14px;
 }
 
@@ -302,7 +305,8 @@ input:focus {
   border-radius: 999px;
   background: #f4f8ff;
   color: #12385d;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.35px;
   cursor: pointer;
 }
 
@@ -360,7 +364,7 @@ input:focus {
   border: 1px solid rgba(23, 62, 108, 0.2);
   background: rgba(255, 255, 255, 0.82);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95);
-  overflow: auto;
+  overflow: hidden;
   padding: 12px;
 }
 
@@ -416,8 +420,16 @@ input:focus {
     #fff;
   display: grid;
   place-items: center;
-  overflow: auto;
+  overflow: hidden;
   padding: 10px;
+  user-select: none;
+  cursor: grab;
+  touch-action: none;
+  overscroll-behavior: contain;
+}
+
+.pizza-svg-canvas.is-dragging {
+  cursor: grabbing;
 }
 
 .pizza-svg-plot {
@@ -444,26 +456,27 @@ input:focus {
 
 .pizza-dim-line {
   stroke: #2f6dff;
-  stroke-width: 2;
+  stroke-width: 2.8;
   marker-start: url(#pizzaArrow);
   marker-end: url(#pizzaArrow);
 }
 
 .pizza-dim-guide {
   stroke: #2f6dff;
-  stroke-width: 1.2;
-  stroke-dasharray: 4 4;
+  stroke-width: 1.8;
+  stroke-dasharray: 6 5;
   opacity: 0.75;
 }
 
 .pizza-dim-text {
   fill: #2f6dff;
   font-family: "Space Grotesk", "Segoe UI", sans-serif;
-  font-size: 30px;
-  font-weight: 600;
+  font-size: 42px;
+  font-weight: 700;
+  letter-spacing: 0.35px;
   paint-order: stroke;
   stroke: #ffffff;
-  stroke-width: 3px;
+  stroke-width: 4px;
 }
 
 .pizza-svg-caption {
@@ -524,7 +537,7 @@ input:focus {
 <body>
 <header>
   <div class="brand-wrap">
-    <img src="logo.png" alt="MYBOX Logo">
+    <img src="assets/images/logo.png" alt="MYBOX Logo">
     <div>
       <div class="logo-text">MYBOX Quotation Lab</div>
       <div class="sub">Fast structural pricing for corrugated boxes</div>
@@ -551,26 +564,26 @@ input:focus {
   <div class="section-sub">Pick one structure to open the smart sizing and quotation workbench.</div>
 
   <div class="box-grid">
-    <div class="box-card" onclick="selectBox('RSC Box','rsc.png')">
-      <img src="rsc.png" alt="RSC Box">
+    <div class="box-card" onclick="selectBox('RSC Box','assets/images/rsc.png')">
+      <img src="assets/images/rsc.png" alt="RSC Box">
       <h3>RSC Box</h3>
       <p>Regular slotted carton for standard logistics and storage.</p>
     </div>
 
-    <div class="box-card" onclick="selectBox('5 Panel Box','5panel.png')">
-      <img src="5panel.png" alt="5 Panel Box">
+    <div class="box-card" onclick="selectBox('5 Panel Box','assets/images/5panel.png')">
+      <img src="assets/images/5panel.png" alt="5 Panel Box">
       <h3>5 Panel Box</h3>
       <p>Extended panel structure for long products and additional protection.</p>
     </div>
 
-    <div class="box-card" onclick="selectBox('Pizza Box','pizza.png')">
-      <img src="pizza.png" alt="Pizza Box">
+    <div class="box-card" onclick="selectBox('Pizza Box','assets/images/pizza.png')">
+      <img src="assets/images/pizza.png" alt="Pizza Box">
       <h3>Pizza Box</h3>
       <p>Flat fold style suitable for Premium or shallow product packaging format.</p>
     </div>
 
-    <div class="box-card" onclick="selectBox('Gift Box','gift.png')">
-      <img src="gift.png" alt="Gift Box">
+    <div class="box-card" onclick="selectBox('Gift Box','assets/images/gift.png')">
+      <img src="assets/images/gift.png" alt="Gift Box">
       <h3>Gift Box</h3>
       <p>Presentation-oriented structure for premium display and gifting.</p>
     </div>
@@ -591,16 +604,16 @@ input:focus {
       </div>
 
       <label for="length">Length (mm)</label>
-      <input type="number" id="length" min="1" placeholder="e.g. 200" oninput="calculatePrice()">
+      <input type="number" id="length" min="1" placeholder="200" oninput="calculatePrice()">
 
       <label for="width">Width (mm)</label>
-      <input type="number" id="width" min="1" placeholder="e.g. 150" oninput="calculatePrice()">
+      <input type="number" id="width" min="1" placeholder="150" oninput="calculatePrice()">
 
       <label for="height">Height (mm)</label>
-      <input type="number" id="height" min="1" placeholder="e.g. 50" oninput="calculatePrice()">
+      <input type="number" id="height" min="1" placeholder="50" oninput="calculatePrice()">
 
       <label for="qty">Quantity (Minimum 30)</label>
-      <input type="number" id="qty" min="30" step="1" placeholder="Minimum 30" oninput="calculatePrice()">
+      <input type="number" id="qty" min="30" step="1" value="30" oninput="calculatePrice()">
 
       <div class="option-block">
         <strong>Select Layer</strong><br>
@@ -616,8 +629,8 @@ input:focus {
     <div class="card">
             <div class="preview-2d-wrap">
         <div class="preview-2d-head">
-          <h3>2D SVG Preview</h3>
-          <p>Parametric die line with live L/W/D updates</p>
+          <h3 id="previewPanelTitle">2D SVG Preview</h3>
+          <p id="previewPanelSubtitle">Parametric die line with live L/W/H updates</p>
         </div>
         <div class="preview-stage" id="previewStage"></div>
 
@@ -627,960 +640,25 @@ input:focus {
           <div class="dim-chip" id="dimH">H: -- mm</div>
           <div class="dim-chip" id="dimType">Type: --</div>
         </div>
+        
 
-        <p class="note">Pizza Box 2D preview uses real type parameters (JLC type model), then redraws lines in real time from your inputs.</p>
+        <p class="note" id="previewNote">2D preview will display real time from your inputs.</p>
       </div>
     </div>
   </div>
 </div>
 
 
-<script src="pizza-template-b-model.js"></script>
-<script>
-let selectedBox = "";
-let selectedLayer = "";
-let selectedMaterialFactor = null;
-let selectedBoxImage = "";
 
-const JLC_PIZZA_MODEL = {
-  source: "JLC /api/box/front/type/get",
-  sourceDate: "2026-03-07",
-  typeId: "382814600598241282",
-  templateId: "W3",
-  defaults: {
-    L: 200,
-    W: 150,
-    D: 50,
-    X: 2
-  },
-  limits: {
-    L: { min: 50, max: 1000 },
-    W: { min: 40, maxBy: "L" },
-    D: { min: 25, maxBy: "W" }
-  }
-};
+<script src="scripts/models/pizza-template-b-model.js"></script>
+<script src="scripts/models/gift-box-template.js"></script>
+<script src="scripts/models/five-panel-template.js"></script>
 
-function clamp(value, min, max) {
-  return Math.max(min, Math.min(max, value));
-}
-function valueOrDefault(value, fallback) {
-  return Number.isFinite(value) && value > 0 ? value : fallback;
-}
 
-function calcPizzaAllowance(depth, fluteX) {
-  if (depth < 20) return fluteX * 0.75;
-  if (depth < 30) return fluteX * 0.8;
-  if (depth < 40) return fluteX * 0.85;
-  if (depth < 50) return fluteX * 0.9;
-  if (depth < 60) return fluteX * 0.95;
-  return fluteX;
-}
+<script src="scripts/app.js"></script>
 
-function resolvePizzaInput(L, W, H) {
-  const model = JLC_PIZZA_MODEL;
-  const x = model.defaults.X;
-
-  const l = clamp(
-    valueOrDefault(L, model.defaults.L),
-    model.limits.L.min,
-    model.limits.L.max
-  );
-
-  const w = clamp(
-    valueOrDefault(W, model.defaults.W),
-    model.limits.W.min,
-    l
-  );
-
-  const d = clamp(
-    valueOrDefault(H, model.defaults.D),
-    model.limits.D.min,
-    w + x
-  );
-
-  return { L: l, W: w, D: d, X: x };
-}
-
-function updateDimensionChips(L, W, H) {
-  document.getElementById("dimL").innerText = "L: " + (L > 0 ? L : "--") + " mm";
-  document.getElementById("dimW").innerText = "W: " + (W > 0 ? W : "--") + " mm";
-  document.getElementById("dimH").innerText = "H: " + (H > 0 ? H : "--") + " mm";
-  document.getElementById("dimType").innerText = "Type: " + (selectedBox || "--");
-}
-
-function createPizzaSourceSVG(L, W, H) {
-  const resolved = resolvePizzaInput(L, W, H);
-  const l = resolved.L;
-  const w = resolved.W;
-  const d = resolved.D;
-  const x = resolved.X;
-
-  const t = calcPizzaAllowance(d, x);
-  const panelW = w + t;
-  const panelD = d + t;
-  const panelL = l + t;
-
-  const glue = clamp(panelD * 0.42, 12, 72);
-  const dust = clamp(panelD * 1.12, 16, 120);
-  const tuck = clamp(panelD * 0.96, 16, 140);
-  const chamfer = clamp(panelD * 0.26, 6, 42);
-  const round = clamp(panelD * 0.82, 16, 130);
-
-  const xBase0 = 0;
-  const xBase1 = xBase0 + panelW;
-  const xSpine0 = xBase1;
-  const xSpine1 = xSpine0 + panelD;
-  const xLid0 = xSpine1;
-  const xLid1 = xLid0 + panelW;
-  const xLeft0 = xBase0 - panelD;
-  const xLeft1 = xBase0;
-  const xGlue0 = xLeft0 - glue;
-  const xGlue1 = xLeft0;
-  const xDust0 = xLid1;
-  const xDust1 = xDust0 + dust;
-
-  const yBody0 = 0;
-  const yBody1 = panelL;
-  const yTopFold = yBody0;
-  const yBotFold = yBody1;
-  const yTopFlap = yBody0 - panelD;
-  const yBotFlap = yBody1 + panelD;
-  const yTopTuck = yTopFlap - tuck;
-  const yBotTuck = yBotFlap + tuck;
-
-  const pad = Math.max(30, panelD * 0.45);
-  const viewW = (xDust1 - xGlue0) + pad * 2;
-  const viewH = (yBotTuck - yTopTuck) + pad * 2;
-
-  const tx = (xPos) => xPos - xGlue0 + pad;
-  const ty = (yPos) => yPos - yTopTuck + pad;
-
-  const midY = (yBody0 + yBody1) / 2;
-  const dimLX = xBase0 + panelW * 0.1;
-
-  const lidTopPath = [
-    `M ${tx(xLid0)} ${ty(yBody0)}`,
-    `L ${tx(xLid0 + chamfer)} ${ty(yTopFlap)}`,
-    `L ${tx(xLid1 - chamfer)} ${ty(yTopFlap)}`,
-    `L ${tx(xLid1)} ${ty(yBody0)}`
-  ].join(" ");
-
-  const lidBotPath = [
-    `M ${tx(xLid0)} ${ty(yBody1)}`,
-    `L ${tx(xLid0 + chamfer)} ${ty(yBotFlap)}`,
-    `L ${tx(xLid1 - chamfer)} ${ty(yBotFlap)}`,
-    `L ${tx(xLid1)} ${ty(yBody1)}`
-  ].join(" ");
-
-  const rightDustPath = [
-    `M ${tx(xDust0)} ${ty(yBody0)}`,
-    `L ${tx(xDust1 - round)} ${ty(yBody0)}`,
-    `Q ${tx(xDust1)} ${ty(yBody0 + round * 0.4)} ${tx(xDust1)} ${ty(yBody0 + round)}`,
-    `L ${tx(xDust1)} ${ty(yBody1 - round)}`,
-    `Q ${tx(xDust1)} ${ty(yBody1 - round * 0.4)} ${tx(xDust1 - round)} ${ty(yBody1)}`,
-    `L ${tx(xDust0)} ${ty(yBody1)}`,
-    `Z`
-  ].join(" ");
-
-  const topTuckPath = [
-    `M ${tx(xBase0)} ${ty(yTopFlap)}`,
-    `L ${tx(xBase0 + chamfer)} ${ty(yTopTuck)}`,
-    `L ${tx(xBase1 - chamfer)} ${ty(yTopTuck)}`,
-    `L ${tx(xBase1)} ${ty(yTopFlap)}`,
-    `Z`
-  ].join(" ");
-
-  const bottomTuckPath = [
-    `M ${tx(xBase0)} ${ty(yBotFlap)}`,
-    `L ${tx(xBase0 + chamfer)} ${ty(yBotTuck)}`,
-    `L ${tx(xBase1 - chamfer)} ${ty(yBotTuck)}`,
-    `L ${tx(xBase1)} ${ty(yBotFlap)}`,
-    `Z`
-  ].join(" ");
-
-  let adjustText = "";
-  if (Number.isFinite(L) && L > 0 && Math.round(L) !== Math.round(l)) {
-    adjustText += ` L adjusted to ${Math.round(l)}.`;
-  }
-  if (Number.isFinite(W) && W > 0 && Math.round(W) !== Math.round(w)) {
-    adjustText += ` W adjusted to ${Math.round(w)}.`;
-  }
-  if (Number.isFinite(H) && H > 0 && Math.round(H) !== Math.round(d)) {
-    adjustText += ` D adjusted to ${Math.round(d)}.`;
-  }
-
-  const html = `
-    <div class="pizza-svg-stage">
-      <div class="pizza-svg-canvas">
-        <svg class="pizza-svg-plot" viewBox="0 0 ${viewW.toFixed(2)} ${viewH.toFixed(2)}" role="img" aria-label="Pizza Box parametric die line">
-          <defs>
-            <marker id="pizzaArrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-              <path d="M0,0 L10,5 L0,10 z" fill="#2f6dff"></path>
-            </marker>
-          </defs>
-
-          <rect class="pizza-cut" x="${tx(xGlue0).toFixed(2)}" y="${ty(yBody0).toFixed(2)}" width="${(xGlue1 - xGlue0).toFixed(2)}" height="${(yBody1 - yBody0).toFixed(2)}"></rect>
-          <rect class="pizza-cut" x="${tx(xLeft0).toFixed(2)}" y="${ty(yBody0).toFixed(2)}" width="${(xLeft1 - xLeft0).toFixed(2)}" height="${(yBody1 - yBody0).toFixed(2)}"></rect>
-          <rect class="pizza-cut" x="${tx(xBase0).toFixed(2)}" y="${ty(yBody0).toFixed(2)}" width="${(xBase1 - xBase0).toFixed(2)}" height="${(yBody1 - yBody0).toFixed(2)}"></rect>
-          <rect class="pizza-cut" x="${tx(xSpine0).toFixed(2)}" y="${ty(yBody0).toFixed(2)}" width="${(xSpine1 - xSpine0).toFixed(2)}" height="${(yBody1 - yBody0).toFixed(2)}"></rect>
-          <rect class="pizza-cut" x="${tx(xLid0).toFixed(2)}" y="${ty(yBody0).toFixed(2)}" width="${(xLid1 - xLid0).toFixed(2)}" height="${(yBody1 - yBody0).toFixed(2)}"></rect>
-
-          <rect class="pizza-cut" x="${tx(xLeft0).toFixed(2)}" y="${ty(yTopFlap).toFixed(2)}" width="${(xLeft1 - xLeft0).toFixed(2)}" height="${(yBody0 - yTopFlap).toFixed(2)}"></rect>
-          <rect class="pizza-cut" x="${tx(xBase0).toFixed(2)}" y="${ty(yTopFlap).toFixed(2)}" width="${(xBase1 - xBase0).toFixed(2)}" height="${(yBody0 - yTopFlap).toFixed(2)}"></rect>
-          <path class="pizza-cut" d="${topTuckPath}"></path>
-          <path class="pizza-cut" d="${lidTopPath}"></path>
-
-          <rect class="pizza-cut" x="${tx(xLeft0).toFixed(2)}" y="${ty(yBody1).toFixed(2)}" width="${(xLeft1 - xLeft0).toFixed(2)}" height="${(yBotFlap - yBody1).toFixed(2)}"></rect>
-          <rect class="pizza-cut" x="${tx(xBase0).toFixed(2)}" y="${ty(yBody1).toFixed(2)}" width="${(xBase1 - xBase0).toFixed(2)}" height="${(yBotFlap - yBody1).toFixed(2)}"></rect>
-          <path class="pizza-cut" d="${bottomTuckPath}"></path>
-          <path class="pizza-cut" d="${lidBotPath}"></path>
-
-          <path class="pizza-cut" d="${rightDustPath}"></path>
-
-          <line class="pizza-fold" x1="${tx(xGlue1).toFixed(2)}" y1="${ty(yBody0).toFixed(2)}" x2="${tx(xGlue1).toFixed(2)}" y2="${ty(yBody1).toFixed(2)}"></line>
-          <line class="pizza-fold" x1="${tx(xLeft1).toFixed(2)}" y1="${ty(yBody0).toFixed(2)}" x2="${tx(xLeft1).toFixed(2)}" y2="${ty(yBody1).toFixed(2)}"></line>
-          <line class="pizza-fold" x1="${tx(xBase1).toFixed(2)}" y1="${ty(yBody0).toFixed(2)}" x2="${tx(xBase1).toFixed(2)}" y2="${ty(yBody1).toFixed(2)}"></line>
-          <line class="pizza-fold" x1="${tx(xSpine1).toFixed(2)}" y1="${ty(yBody0).toFixed(2)}" x2="${tx(xSpine1).toFixed(2)}" y2="${ty(yBody1).toFixed(2)}"></line>
-          <line class="pizza-fold" x1="${tx(xLid1).toFixed(2)}" y1="${ty(yBody0).toFixed(2)}" x2="${tx(xLid1).toFixed(2)}" y2="${ty(yBody1).toFixed(2)}"></line>
-
-          <line class="pizza-fold" x1="${tx(xLeft0).toFixed(2)}" y1="${ty(yTopFold).toFixed(2)}" x2="${tx(xLid1).toFixed(2)}" y2="${ty(yTopFold).toFixed(2)}"></line>
-          <line class="pizza-fold" x1="${tx(xLeft0).toFixed(2)}" y1="${ty(yBotFold).toFixed(2)}" x2="${tx(xLid1).toFixed(2)}" y2="${ty(yBotFold).toFixed(2)}"></line>
-
-          <line class="pizza-dim-guide" x1="${tx(xBase0).toFixed(2)}" y1="${ty(yBody0).toFixed(2)}" x2="${tx(xBase0).toFixed(2)}" y2="${ty(yBody1).toFixed(2)}"></line>
-          <line class="pizza-dim-guide" x1="${tx(xBase1).toFixed(2)}" y1="${ty(yBody0).toFixed(2)}" x2="${tx(xBase1).toFixed(2)}" y2="${ty(yBody1).toFixed(2)}"></line>
-          <line class="pizza-dim-guide" x1="${tx(xSpine1).toFixed(2)}" y1="${ty(yBody0).toFixed(2)}" x2="${tx(xSpine1).toFixed(2)}" y2="${ty(yBody1).toFixed(2)}"></line>
-
-          <line class="pizza-dim-line" x1="${tx(xBase0).toFixed(2)}" y1="${ty(midY).toFixed(2)}" x2="${tx(xBase1).toFixed(2)}" y2="${ty(midY).toFixed(2)}"></line>
-          <line class="pizza-dim-line" x1="${tx(dimLX).toFixed(2)}" y1="${ty(yBody0).toFixed(2)}" x2="${tx(dimLX).toFixed(2)}" y2="${ty(yBody1).toFixed(2)}"></line>
-          <line class="pizza-dim-line" x1="${tx(xBase1).toFixed(2)}" y1="${ty(midY).toFixed(2)}" x2="${tx(xSpine1).toFixed(2)}" y2="${ty(midY).toFixed(2)}"></line>
-
-          <text class="pizza-dim-text" x="${tx((xBase0 + xBase1) / 2).toFixed(2)}" y="${ty(midY - panelD * 0.08).toFixed(2)}" text-anchor="middle">W=${Math.round(w)}mm</text>
-          <text class="pizza-dim-text" x="${tx(dimLX + panelD * 0.12).toFixed(2)}" y="${ty((yBody0 + yBody1) / 2).toFixed(2)}" text-anchor="middle" transform="rotate(-90 ${tx(dimLX + panelD * 0.12).toFixed(2)} ${ty((yBody0 + yBody1) / 2).toFixed(2)})">L=${Math.round(l)}mm</text>
-          <text class="pizza-dim-text" x="${tx((xBase1 + xSpine1) / 2).toFixed(2)}" y="${ty(midY - panelD * 0.08).toFixed(2)}" text-anchor="middle">D=${Math.round(d)}mm</text>
-        </svg>
-      </div>
-      <div class="pizza-svg-caption">
-        Parametric dieline (Pizza): L ${Math.round(l)} x W ${Math.round(w)} x D ${Math.round(d)} mm | X=${x}, t=${t.toFixed(2)} (${JLC_PIZZA_MODEL.templateId})
-        ${adjustText ? `<br><span style="color:#9f5412">Adjusted by limits:${adjustText}</span>` : ""}
-      </div>
-    </div>
-  `;
-
-  return {
-    html,
-    dims: { L: l, W: w, D: d }
-  };
-}
-
-function render2DPreview() {
-  const stage = document.getElementById("previewStage");
-  if (!stage) {
-    return;
-  }
-
-  const L = parseFloat(document.getElementById("length").value) || 0;
-  const W = parseFloat(document.getElementById("width").value) || 0;
-  const H = parseFloat(document.getElementById("height").value) || 0;
-
-  if (!selectedBox) {
-    stage.innerHTML = '<div class="preview-placeholder">Select a box type to start preview.</div>';
-    updateDimensionChips(0, 0, 0);
-    return;
-  }
-
-  if (selectedBox === "Pizza Box") {
-    const pizza = createPizzaSourceSVG(L, W, H);
-    stage.innerHTML = pizza.html;
-    updateDimensionChips(pizza.dims.L, pizza.dims.W, pizza.dims.D);
-    return;
-  }
-
-  stage.innerHTML = `
-    <div class="preview-static">
-      <img src="${selectedBoxImage}" alt="${selectedBox} reference preview">
-      <div>Live 2D dimension drawing is currently enabled for Pizza Box first.</div>
-    </div>
-  `;
-
-  updateDimensionChips(L, W, H);
-}
-
-function selectBox(type, img) {
-  selectedBox = type;
-  selectedBoxImage = img;
-
-  document.getElementById("selectedImage").src = img;
-  document.getElementById("selectedTitle").innerText = type;
-
-  document.getElementById("page1").style.display = "none";
-  document.getElementById("page2").style.display = "block";
-
-  selectedLayer = "";
-  selectedMaterialFactor = null;
-
-  document.getElementById("materialOptions").innerHTML = "";
-  document.getElementById("result").innerHTML = "";
-
-  document.getElementById("btn3").classList.remove("active");
-  document.getElementById("btn5").classList.remove("active");
-
-  if (type === "Pizza Box" || type === "Gift Box") {
-    document.getElementById("btn5").style.display = "none";
-  } else {
-    document.getElementById("btn5").style.display = "inline-block";
-  }
-
-  render2DPreview();
-}
-
-function goBack() {
-  document.getElementById("page1").style.display = "block";
-  document.getElementById("page2").style.display = "none";
-}
-
-function selectLayer(btn, layer) {
-  document.getElementById("btn3").classList.remove("active");
-  document.getElementById("btn5").classList.remove("active");
-  btn.classList.add("active");
-
-  selectedLayer = layer;
-  selectedMaterialFactor = null;
-
-  const materialDiv = document.getElementById("materialOptions");
-  materialDiv.innerHTML = "<strong>Select Material</strong><br>";
-
-  let materials = {};
-
-  if (layer === 3) {
-    materials = {
-      "60 LBS": 1.5 * 1.2,
-      "100 LBS": 1.8 * 1.2,
-      "150 LBS": 2.5 * 1.2
-    };
-  } else {
-    materials = {
-      "100 LBS": 2.3 * 1.2,
-      "150 LBS": 2.7 * 1.2,
-      "200 LBS": 3.1 * 1.2
-    };
-  }
-
-  for (const name in materials) {
-    const mbtn = document.createElement("button");
-    mbtn.className = "option-btn";
-    mbtn.innerText = name;
-
-    mbtn.onclick = function () {
-      document.querySelectorAll("#materialOptions .option-btn")
-        .forEach(b => b.classList.remove("active"));
-
-      mbtn.classList.add("active");
-
-      selectedMaterialFactor = {
-        name: name,
-        factor: materials[name]
-      };
-
-      calculatePrice();
-    };
-
-    materialDiv.appendChild(mbtn);
-  }
-}
-
-function calculatePrice() {
-  const L = parseFloat(document.getElementById("length").value);
-  const W = parseFloat(document.getElementById("width").value);
-  const H = parseFloat(document.getElementById("height").value);
-  const quantity = parseFloat(document.getElementById("qty").value);
-
-  render2DPreview();
-
-  if (!L || !W || !H || !quantity || !selectedMaterialFactor) {
-    return;
-  }
-
-  if (quantity < 30) {
-    document.getElementById("result").innerHTML =
-      "<span style='color:#bc1f35;font-weight:700'>Minimum order quantity is 30.</span>";
-    return;
-  }
-
-  if (selectedBox === "Pizza Box") {
-    const maxH = W + JLC_PIZZA_MODEL.defaults.X;
-    if (L < 50 || L > 1000) {
-      document.getElementById("result").innerHTML =
-        "<span style='color:#bc1f35;font-weight:700'>Pizza Box length must be between 50 and 1000 mm.</span>";
-      return;
-    }
-    if (W < 40 || W > L) {
-      document.getElementById("result").innerHTML =
-        "<span style='color:#bc1f35;font-weight:700'>Pizza Box width must be between 40 mm and " + L + " mm.</span>";
-      return;
-    }
-    if (H < 25 || H > maxH) {
-      document.getElementById("result").innerHTML =
-        "<span style='color:#bc1f35;font-weight:700'>Pizza Box height must be between 25 mm and " + W + " mm.</span>";
-      return;
-    }
-  }
-
-  if ((selectedBox === "Pizza Box" || selectedBox === "5 Panel Box") && W > L) {
-    document.getElementById("result").innerHTML =
-      "<span style='color:#bc1f35;font-weight:700'>Width cannot be greater than Length for this box type.</span>";
-    return;
-  }
-
-  let area = 0;
-
-  if (selectedBox === "RSC Box") {
-    area = ((40 + 2 * L + 2 * W) / 1000) * ((W + H + 50) / 1000);
-  } else if (selectedBox === "5 Panel Box") {
-    area = ((2 * W + 3 * H) / 1000) * (((L + 2 * H) + 50) / 1000);
-  } else if (selectedBox === "Pizza Box") {
-    area = (((H * 3) + (W * 2) + 60) / 1000) * (((L + 32) + ((H * 2) + 20 + ((H + 3) * 2) + 12) + 50) / 1000);
-  } else if (selectedBox === "Gift Box") {
-    area = (((L * 2) + (W * 2) + 20 + 30) / 1000) * (((W + H + 20) + ((W / 2) + 20 + 30)) / 1000);
-  }
-
-  let cost = area * selectedMaterialFactor.factor;
-  let price = Math.min(cost * 2.2, cost + 5);
-
-  if (selectedLayer === 3) {
-    price = Math.max(price, 1.00);
-  } else if (selectedLayer === 5) {
-    price = Math.max(price, 1.50);
-  }
-
-  let discountRate = 0;
-  if (quantity >= 1000) {
-    discountRate = 0.20;
-  } else if (quantity >= 500) {
-    discountRate = 0.15;
-  } else if (quantity >= 100) {
-    discountRate = 0.10;
-  }
-
-  let discountedPrice = price * (1 - discountRate);
-  discountedPrice = Math.ceil(discountedPrice / 0.05) * 0.05;
-
-  const total = discountedPrice * quantity;
-
-  let discountText = "";
-  if (discountRate > 0) {
-    discountText = "<br>Discount: " + (discountRate * 100) + "% " +
-      "<span style='background:#00a79d;color:white;padding:3px 8px;border-radius:999px;font-size:12px;'>APPROVED</span>";
-  }
-
-  document.getElementById("result").innerHTML =
-    "<strong>Quotation Summary</strong><br><br>" +
-    "Box Type: <b>" + selectedBox + "</b>" +
-    "<br>Material: " + selectedLayer + " Layer, " + selectedMaterialFactor.name +
-    "<br>Unit Price: <b>RM " + discountedPrice.toFixed(2) + "</b>" +
-    "<br>Total Price: <b>RM " + total.toFixed(2) + "</b>" +
-    "<br><small>(Delivery not included)</small>" +
-    discountText +
-    "<br><br>Production Time: <b>5~7 working days</b>";
-}
-
-function predictTemplateBAnchors(model, L, W, D) {
-  const targetX = model.coeffX.map((coef) => coef[0] * L + coef[1] * W + coef[2] * D + coef[3]);
-  const targetY = model.coeffY.map((coef) => coef[0] * L + coef[1] * W + coef[2] * D + coef[3]);
-  return {
-    x: enforceMonotonic(targetX),
-    y: enforceMonotonic(targetY)
-  };
-}
-
-function enforceMonotonic(values) {
-  const out = values.slice();
-  for (let i = 1; i < out.length; i++) {
-    if (out[i] <= out[i - 1]) {
-      out[i] = out[i - 1] + 0.0001;
-    }
-  }
-  return out;
-}
-
-function mapAxisPiecewise(value, baseAxis, targetAxis) {
-  if (!Number.isFinite(value)) {
-    return value;
-  }
-
-  const n = baseAxis.length;
-  if (n < 2) {
-    return value;
-  }
-
-  if (value <= baseAxis[0]) {
-    const b0 = baseAxis[0];
-    const b1 = baseAxis[1];
-    const t = (value - b0) / (b1 - b0 || 1);
-    return targetAxis[0] + t * (targetAxis[1] - targetAxis[0]);
-  }
-
-  if (value >= baseAxis[n - 1]) {
-    const b0 = baseAxis[n - 2];
-    const b1 = baseAxis[n - 1];
-    const t = (value - b0) / (b1 - b0 || 1);
-    return targetAxis[n - 2] + t * (targetAxis[n - 1] - targetAxis[n - 2]);
-  }
-
-  for (let i = 0; i < n - 1; i++) {
-    const b0 = baseAxis[i];
-    const b1 = baseAxis[i + 1];
-    if (value >= b0 && value <= b1) {
-      const t = (value - b0) / (b1 - b0 || 1);
-      return targetAxis[i] + t * (targetAxis[i + 1] - targetAxis[i]);
-    }
-  }
-
-  return value;
-}
-
-function classToPreviewClass(cls) {
-  return cls === "cls-3" ? "pizza-cut" : "pizza-fold";
-}
-
-function fmtNum(v) {
-  return Number(v.toFixed(2)).toString();
-}
-
-function tokenizePathData(d) {
-  const tokens = [];
-  const re = /([a-zA-Z])|(-?\d*\.?\d+(?:e[-+]?\d+)?)/g;
-  let m;
-  while ((m = re.exec(d))) {
-    if (m[1]) {
-      tokens.push({ type: "cmd", value: m[1] });
-    } else {
-      tokens.push({ type: "num", value: parseFloat(m[2]) });
-    }
-  }
-  return tokens;
-}
-
-function transformPathData(d, mapX, mapY) {
-  const tokens = tokenizePathData(d);
-  const out = [];
-
-  let i = 0;
-  let cmd = "";
-  let ox = 0;
-  let oy = 0;
-  let sx = 0;
-  let sy = 0;
-
-  const hasNum = () => i < tokens.length && tokens[i].type === "num";
-  const readNum = () => tokens[i++].value;
-
-  while (i < tokens.length) {
-    if (tokens[i].type === "cmd") {
-      cmd = tokens[i].value;
-      i += 1;
-    }
-
-    if (!cmd) {
-      break;
-    }
-
-    const up = cmd.toUpperCase();
-    const rel = cmd !== up;
-
-    if (up === "Z") {
-      out.push("Z");
-      ox = sx;
-      oy = sy;
-      continue;
-    }
-
-    if (up === "M") {
-      let first = true;
-      while (hasNum()) {
-        let x = readNum();
-        let y = readNum();
-        if (rel) {
-          x += ox;
-          y += oy;
-        }
-        const tx = mapX(x);
-        const ty = mapY(y);
-        out.push((first ? "M" : "L") + " " + fmtNum(tx) + " " + fmtNum(ty));
-        ox = x;
-        oy = y;
-        if (first) {
-          sx = x;
-          sy = y;
-          first = false;
-        }
-        if (i >= tokens.length || tokens[i].type === "cmd") {
-          break;
-        }
-      }
-      continue;
-    }
-
-    if (up === "L") {
-      while (hasNum()) {
-        let x = readNum();
-        let y = readNum();
-        if (rel) {
-          x += ox;
-          y += oy;
-        }
-        out.push("L " + fmtNum(mapX(x)) + " " + fmtNum(mapY(y)));
-        ox = x;
-        oy = y;
-        if (i >= tokens.length || tokens[i].type === "cmd") {
-          break;
-        }
-      }
-      continue;
-    }
-
-    if (up === "H") {
-      while (hasNum()) {
-        let x = readNum();
-        if (rel) {
-          x += ox;
-        }
-        out.push("H " + fmtNum(mapX(x)));
-        ox = x;
-        if (i >= tokens.length || tokens[i].type === "cmd") {
-          break;
-        }
-      }
-      continue;
-    }
-
-    if (up === "V") {
-      while (hasNum()) {
-        let y = readNum();
-        if (rel) {
-          y += oy;
-        }
-        out.push("V " + fmtNum(mapY(y)));
-        oy = y;
-        if (i >= tokens.length || tokens[i].type === "cmd") {
-          break;
-        }
-      }
-      continue;
-    }
-
-    if (up === "C") {
-      while (hasNum()) {
-        let x1 = readNum();
-        let y1 = readNum();
-        let x2 = readNum();
-        let y2 = readNum();
-        let x = readNum();
-        let y = readNum();
-        if (rel) {
-          x1 += ox; y1 += oy;
-          x2 += ox; y2 += oy;
-          x += ox; y += oy;
-        }
-        out.push(
-          "C " +
-          fmtNum(mapX(x1)) + " " + fmtNum(mapY(y1)) + " " +
-          fmtNum(mapX(x2)) + " " + fmtNum(mapY(y2)) + " " +
-          fmtNum(mapX(x)) + " " + fmtNum(mapY(y))
-        );
-        ox = x;
-        oy = y;
-        if (i >= tokens.length || tokens[i].type === "cmd") {
-          break;
-        }
-      }
-      continue;
-    }
-
-    if (up === "S") {
-      while (hasNum()) {
-        let x2 = readNum();
-        let y2 = readNum();
-        let x = readNum();
-        let y = readNum();
-        if (rel) {
-          x2 += ox; y2 += oy;
-          x += ox; y += oy;
-        }
-        out.push(
-          "S " +
-          fmtNum(mapX(x2)) + " " + fmtNum(mapY(y2)) + " " +
-          fmtNum(mapX(x)) + " " + fmtNum(mapY(y))
-        );
-        ox = x;
-        oy = y;
-        if (i >= tokens.length || tokens[i].type === "cmd") {
-          break;
-        }
-      }
-      continue;
-    }
-
-    if (up === "Q") {
-      while (hasNum()) {
-        let x1 = readNum();
-        let y1 = readNum();
-        let x = readNum();
-        let y = readNum();
-        if (rel) {
-          x1 += ox; y1 += oy;
-          x += ox; y += oy;
-        }
-        out.push(
-          "Q " +
-          fmtNum(mapX(x1)) + " " + fmtNum(mapY(y1)) + " " +
-          fmtNum(mapX(x)) + " " + fmtNum(mapY(y))
-        );
-        ox = x;
-        oy = y;
-        if (i >= tokens.length || tokens[i].type === "cmd") {
-          break;
-        }
-      }
-      continue;
-    }
-
-    if (up === "T") {
-      while (hasNum()) {
-        let x = readNum();
-        let y = readNum();
-        if (rel) {
-          x += ox;
-          y += oy;
-        }
-        out.push("T " + fmtNum(mapX(x)) + " " + fmtNum(mapY(y)));
-        ox = x;
-        oy = y;
-        if (i >= tokens.length || tokens[i].type === "cmd") {
-          break;
-        }
-      }
-      continue;
-    }
-
-    if (up === "A") {
-      while (hasNum()) {
-        const rx = readNum();
-        const ry = readNum();
-        const rot = readNum();
-        const laf = readNum();
-        const sf = readNum();
-        let x = readNum();
-        let y = readNum();
-        if (rel) {
-          x += ox;
-          y += oy;
-        }
-        out.push(
-          "A " + fmtNum(rx) + " " + fmtNum(ry) + " " + fmtNum(rot) + " " +
-          fmtNum(laf) + " " + fmtNum(sf) + " " + fmtNum(mapX(x)) + " " + fmtNum(mapY(y))
-        );
-        ox = x;
-        oy = y;
-        if (i >= tokens.length || tokens[i].type === "cmd") {
-          break;
-        }
-      }
-      continue;
-    }
-
-    break;
-  }
-
-  return out.join(" ");
-}
-
-function createPizzaTemplateBSVG(L, W, H) {
-  const model = window.PIZZA_TEMPLATE_B_MODEL;
-  if (!model) {
-    return {
-      html: '<div class="preview-placeholder">Template model not loaded.</div>',
-      dims: { L: L || 0, W: W || 0, D: H || 0 }
-    };
-  }
-
-  const resolved = resolvePizzaInput(L, W, H);
-  const l = resolved.L;
-  const w = resolved.W;
-  const d = resolved.D;
-
-  const predicted = predictTemplateBAnchors(model, l, w, d);
-  const targetX = predicted.x;
-  const targetY = predicted.y;
-
-  const mapX = (x) => mapAxisPiecewise(x, model.baseX, targetX);
-  const mapY = (y) => mapAxisPiecewise(y, model.baseY, targetY);
-
-  const lineSvg = model.lineElements.map((line) => {
-    const cls = classToPreviewClass(line.cls);
-    const x1 = fmtNum(mapX(line.x1));
-    const y1 = fmtNum(mapY(line.y1));
-    const x2 = fmtNum(mapX(line.x2));
-    const y2 = fmtNum(mapY(line.y2));
-    return `<line class="${cls}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"></line>`;
-  }).join("\n");
-
-  const pathSvg = model.pathElements.map((p) => {
-    const cls = classToPreviewClass(p.cls);
-    const td = transformPathData(p.d, mapX, mapY);
-    return `<path class="${cls}" d="${td}"></path>`;
-  }).join("\n");
-
-  const minX = Math.min(...targetX);
-  const maxX = Math.max(...targetX);
-  const minY = Math.min(...targetY);
-  const maxY = Math.max(...targetY);
-  const pad = 40;
-
-  const vbX = fmtNum(minX - pad);
-  const vbY = fmtNum(minY - pad);
-  const vbW = fmtNum((maxX - minX) + pad * 2);
-  const vbH = fmtNum((maxY - minY) + pad * 2);
-
-  const xW0 = targetX[6];
-  const xW1 = targetX[14];
-  const xD0 = targetX[14];
-  const xD1 = targetX[17];
-  const yL0 = targetY[23];
-  const yL1 = targetY[24];
-  const midY = (yL0 + yL1) / 2;
-  const dimX = xW0 + (xW1 - xW0) * 0.12;
-
-  const dimOverlay = `
-    <line class="pizza-dim-guide" x1="${fmtNum(xW0)}" y1="${fmtNum(yL0)}" x2="${fmtNum(xW0)}" y2="${fmtNum(yL1)}"></line>
-    <line class="pizza-dim-guide" x1="${fmtNum(xW1)}" y1="${fmtNum(yL0)}" x2="${fmtNum(xW1)}" y2="${fmtNum(yL1)}"></line>
-    <line class="pizza-dim-guide" x1="${fmtNum(xD1)}" y1="${fmtNum(yL0)}" x2="${fmtNum(xD1)}" y2="${fmtNum(yL1)}"></line>
-
-    <line class="pizza-dim-line" x1="${fmtNum(xW0)}" y1="${fmtNum(midY)}" x2="${fmtNum(xW1)}" y2="${fmtNum(midY)}"></line>
-    <line class="pizza-dim-line" x1="${fmtNum(xD0)}" y1="${fmtNum(midY)}" x2="${fmtNum(xD1)}" y2="${fmtNum(midY)}"></line>
-    <line class="pizza-dim-line" x1="${fmtNum(dimX)}" y1="${fmtNum(yL0)}" x2="${fmtNum(dimX)}" y2="${fmtNum(yL1)}"></line>
-
-    <text class="pizza-dim-text" x="${fmtNum((xW0 + xW1) / 2)}" y="${fmtNum(midY - 14)}" text-anchor="middle">W=${Math.round(w)}mm</text>
-    <text class="pizza-dim-text" x="${fmtNum((xD0 + xD1) / 2)}" y="${fmtNum(midY - 14)}" text-anchor="middle">D=${Math.round(d)}mm</text>
-    <text class="pizza-dim-text" x="${fmtNum(dimX + 12)}" y="${fmtNum((yL0 + yL1) / 2)}" text-anchor="middle" transform="rotate(-90 ${fmtNum(dimX + 12)} ${fmtNum((yL0 + yL1) / 2)})">L=${Math.round(l)}mm</text>
-  `;
-
-  return {
-    html: `
-      <div class="pizza-svg-stage">
-        <div class="pizza-svg-canvas">
-          <svg class="pizza-svg-plot" viewBox="${vbX} ${vbY} ${vbW} ${vbH}" role="img" aria-label="Pizza Box template B die line">
-            <defs>
-              <marker id="pizzaArrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-                <path d="M0,0 L10,5 L0,10 z" fill="#2f6dff"></path>
-              </marker>
-            </defs>
-            ${lineSvg}
-            ${pathSvg}
-            ${dimOverlay}
-          </svg>
-        </div>
-        <div class="pizza-svg-caption">
-          Template-B dieline: L ${Math.round(l)} x W ${Math.round(w)} x D ${Math.round(d)} mm (from your sample architecture)
-        </div>
-      </div>
-    `,
-    dims: { L: l, W: w, D: d }
-  };
-}
-
-render2DPreview = function () {
-  const stage = document.getElementById("previewStage");
-  if (!stage) {
-    return;
-  }
-
-  const L = parseFloat(document.getElementById("length").value) || 0;
-  const W = parseFloat(document.getElementById("width").value) || 0;
-  const H = parseFloat(document.getElementById("height").value) || 0;
-
-  if (!selectedBox) {
-    stage.innerHTML = '<div class="preview-placeholder">Select a box type to start preview.</div>';
-    updateDimensionChips(0, 0, 0);
-    return;
-  }
-
-  if (selectedBox === "Pizza Box") {
-    const pizza = createPizzaTemplateBSVG(L, W, H);
-    stage.innerHTML = pizza.html;
-    updateDimensionChips(pizza.dims.L, pizza.dims.W, pizza.dims.D);
-    return;
-  }
-
-  stage.innerHTML = `
-    <div class="preview-static">
-      <img src="${selectedBoxImage}" alt="${selectedBox} reference preview">
-      <div>Live 2D dimension drawing is currently enabled for Pizza Box first.</div>
-    </div>
-  `;
-
-  updateDimensionChips(L, W, H);
-};
-
-["length", "width", "height", "qty"].forEach(id => {
-  document.getElementById(id).addEventListener("input", render2DPreview);
-});
-
-render2DPreview();
-window.selectBox = selectBox;
-window.goBack = goBack;
-window.selectLayer = selectLayer;
-window.calculatePrice = calculatePrice;
-window.update3DPreview = render2DPreview;
-window.updateBoxPreview = render2DPreview;
-</script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
