@@ -2,6 +2,7 @@
 let selectedLayer = "";
 let selectedMaterialFactor = null;
 let selectedBoxImage = "";
+let previewMode = "2d";
 let selectedDimensionMode = "ED";
 
 const JLC_PIZZA_MODEL = {
@@ -104,6 +105,9 @@ const GIFT_AXIS_STOPS = {
 };
 
 const FIVE_PANEL_REFERENCE_TEMPLATE = {
+  // 2026-07-02 修正：之前这里 L/W/H 标签搞反了。按"折叠成型后 L > W > H"的
+  // 惯例来看，应该是 L=200（最长）、W=150（居中）、H=50（最短），
+  // 而不是之前误写的 L=150/W=50/H=200。
   refDims: {
     L: 200,
     W: 150,
@@ -127,7 +131,16 @@ let fivePanelTemplateCachePromise = null;
 
 let giftTemplateCachePromise = null;
 
+// 备注（2026-07-02）：这个函数目前只给旧版 Gift Box 参考模板解析逻辑
+// （classifyGiftLine 等）使用。Web2 那边已经没有这个函数了，因为它把
+// Gift Box 换成了官方 JLC 数据源 + 插值表的新方案，不再需要逐线比对参考模板。
+// 等本项目也把 Gift Box 数据模型换成 Web2 那套（计划中的"第三步"）之后，
+// 这个函数大概率会变成没人调用的死代码，到时候记得一并清理，先不要直接删。
+function approxEq(a, b, tolerance = 0.9) {
+  return Math.abs(a - b) <= tolerance;
+}
 
+// 按分段线性插值表(stops)算出 value 对应的插值结果，stops 格式：[[x0,y0],[x1,y1],...]
 function interpolateByStops(value, stops) {
   if (!Number.isFinite(value)) {
     return stops[0][1];
@@ -173,31 +186,34 @@ function buildGiftTargetAxes(L, W, H) {
 function buildFivePanelTargetAxes(L, W, H) {
   const ref = FIVE_PANEL_REFERENCE_TEMPLATE;
 
-  const sxL = L / ref.refDims.L;
-  const sxW = W / ref.refDims.W;
-  const syH = H / ref.refDims.H;
-  const syW = W / ref.refDims.W;
+  // 2026-07-02 修正：横向"窄边"面板和顶/底翼片实际对应的是 H(高度)，
+  // 横向"宽边"面板对应的是 W(宽度)，纵向主体(展开图里最长的一段)对应的才是 L(长度)。
+  // 之前这里跟 refDims 一样，三个参数的角色被搞反了，现在按验证过的正确对应关系改。
+  const sxNarrow = H / ref.refDims.H;
+  const sxWide = W / ref.refDims.W;
+  const syMain = L / ref.refDims.L;
+  const syFlap = H / ref.refDims.H;
 
   // X 方向：
   // [W][固定过渡][L][固定过渡][W][固定过渡][L][固定过渡][W]
   const x0 = ref.baseX[0];
-  const x1 = x0 + ((ref.baseX[1] - ref.baseX[0]) * sxW);
+  const x1 = x0 + ((ref.baseX[1] - ref.baseX[0]) * sxNarrow);
   const x2 = x1 + (ref.baseX[2] - ref.baseX[1]);
-  const x3 = x2 + ((ref.baseX[3] - ref.baseX[2]) * sxL);
+  const x3 = x2 + ((ref.baseX[3] - ref.baseX[2]) * sxWide);
   const x4 = x3 + (ref.baseX[4] - ref.baseX[3]);
-  const x5 = x4 + ((ref.baseX[5] - ref.baseX[4]) * sxW);
+  const x5 = x4 + ((ref.baseX[5] - ref.baseX[4]) * sxNarrow);
   const x6 = x5 + (ref.baseX[6] - ref.baseX[5]);
-  const x7 = x6 + ((ref.baseX[7] - ref.baseX[6]) * sxL);
+  const x7 = x6 + ((ref.baseX[7] - ref.baseX[6]) * sxWide);
   const x8 = x7 + (ref.baseX[8] - ref.baseX[7]);
-  const x9 = x8 + ((ref.baseX[9] - ref.baseX[8]) * sxW);
+  const x9 = x8 + ((ref.baseX[9] - ref.baseX[8]) * sxNarrow);
 
   // Y 方向：
   // [顶部W][固定过渡][主体H][底部W]
   const y0 = ref.baseY[0];
-  const y1 = y0 + ((ref.baseY[1] - ref.baseY[0]) * syW);
+  const y1 = y0 + ((ref.baseY[1] - ref.baseY[0]) * syFlap);
   const y2 = y1 + (ref.baseY[2] - ref.baseY[1]);
-  const y3 = y2 + ((ref.baseY[3] - ref.baseY[2]) * syH);
-  const y4 = y3 + ((ref.baseY[4] - ref.baseY[3]) * syW);
+  const y3 = y2 + ((ref.baseY[3] - ref.baseY[2]) * syMain);
+  const y4 = y3 + ((ref.baseY[4] - ref.baseY[3]) * syFlap);
 
   return {
     targetX: [x0, x1, x2, x3, x4, x5, x6, x7, x8, x9],
@@ -277,6 +293,8 @@ async function loadFivePanelReferenceTemplate() {
   return fivePanelTemplateCachePromise;
 }
 
+// 新版 gift-box-template.js 里只有 cls-1(折叠线)和其它(切割线)两种，
+// 不再需要靠坐标位置去猜哪条是折叠线(approxEq 那套旧逻辑不再需要，见 approxEq 上方备注)
 function classifyGiftLine(line) {
   if (line.className === "cls-1") {
     return "pizza-fold";
@@ -339,33 +357,31 @@ function buildFivePanelDimOverlay(targetAxes, L, W, H) {
   const x = targetAxes.targetX;
   const y = targetAxes.targetY;
 
-  const plotWidth = x[3] - x[0];
-  const plotHeight = y[5] - y[0];
-  const scale = Math.max(plotWidth / 550, plotHeight / 700);
-  const dimFontSize = clamp(18 * scale, 10, 26);
-  const dimYOffset = dimFontSize * 0.48;
-  const dimXOffset = dimFontSize * 0.46;
-  const cellInset = clamp(Math.min(x[2] - x[1], y[2] - y[1]) * 0.1, 4, 18);
+  const dimFontSize = 42;
+  const dimYOffset = dimFontSize * 0.55;
+  const dimXOffset = dimFontSize * 0.5;
 
-  const dimYL = y[1] + ((y[2] - y[1]) * 0.44);
-  const dimWX = x[1] + ((x[2] - x[1]) * 0.22);
-  const dimYH = y[2] + ((y[3] - y[2]) * 0.8);
+  // 主体区从 y1 到 y3
+  const dimYL = y[1] + ((y[3] - y[1]) * 0.62);
+  const dimYW = y[1] + ((y[3] - y[1]) * 0.80);
+  const dimHX = x[0] + ((x[1] - x[0]) * 0.26);
 
   return `
-    <line class="pizza-dim-guide" x1="${fmtNum(x[1])}" y1="${fmtNum(y[1] + cellInset)}" x2="${fmtNum(x[1])}" y2="${fmtNum(y[2] - cellInset)}"></line>
-    <line class="pizza-dim-guide" x1="${fmtNum(x[2])}" y1="${fmtNum(y[1] + cellInset)}" x2="${fmtNum(x[2])}" y2="${fmtNum(y[2] - cellInset)}"></line>
-    <line class="pizza-dim-guide" x1="${fmtNum(x[0])}" y1="${fmtNum(y[2])}" x2="${fmtNum(x[0])}" y2="${fmtNum(y[3])}"></line>
-    <line class="pizza-dim-guide" x1="${fmtNum(x[1])}" y1="${fmtNum(y[2])}" x2="${fmtNum(x[1])}" y2="${fmtNum(y[3])}"></line>
+    <line class="pizza-dim-guide" x1="${fmtNum(x[0])}" y1="${fmtNum(y[1])}" x2="${fmtNum(x[0])}" y2="${fmtNum(y[3])}"></line>
+    <line class="pizza-dim-guide" x1="${fmtNum(x[1])}" y1="${fmtNum(y[1])}" x2="${fmtNum(x[1])}" y2="${fmtNum(y[3])}"></line>
+    <line class="pizza-dim-guide" x1="${fmtNum(x[2])}" y1="${fmtNum(y[1])}" x2="${fmtNum(x[2])}" y2="${fmtNum(y[3])}"></line>
+    <line class="pizza-dim-guide" x1="${fmtNum(x[3])}" y1="${fmtNum(y[1])}" x2="${fmtNum(x[3])}" y2="${fmtNum(y[3])}"></line>
 
-    <line class="pizza-dim-line" x1="${fmtNum(x[1] + cellInset)}" y1="${fmtNum(dimYL)}" x2="${fmtNum(x[2] - cellInset)}" y2="${fmtNum(dimYL)}"></line>
-    <line class="pizza-dim-line" x1="${fmtNum(dimWX)}" y1="${fmtNum(y[1] + cellInset)}" x2="${fmtNum(dimWX)}" y2="${fmtNum(y[2] - cellInset)}"></line>
-    <line class="pizza-dim-line" x1="${fmtNum(x[0])}" y1="${fmtNum(dimYH)}" x2="${fmtNum(x[1])}" y2="${fmtNum(dimYH)}"></line>
+    <line class="pizza-dim-line" x1="${fmtNum(x[2])}" y1="${fmtNum(dimYL)}" x2="${fmtNum(x[3])}" y2="${fmtNum(dimYL)}"></line>
+    <line class="pizza-dim-line" x1="${fmtNum(x[0])}" y1="${fmtNum(dimYW)}" x2="${fmtNum(x[1])}" y2="${fmtNum(dimYW)}"></line>
+    <line class="pizza-dim-line" x1="${fmtNum(dimHX)}" y1="${fmtNum(y[1])}" x2="${fmtNum(dimHX)}" y2="${fmtNum(y[3])}"></line>
 
-    <text class="pizza-dim-text" style="font-size:${fmtNum(dimFontSize)}px" x="${fmtNum((x[1] + x[2]) / 2)}" y="${fmtNum(dimYL - dimYOffset)}" text-anchor="middle">L=${Math.round(L)}mm</text>
-    <text class="pizza-dim-text" style="font-size:${fmtNum(dimFontSize)}px" x="${fmtNum(dimWX + dimXOffset)}" y="${fmtNum((y[1] + y[2]) / 2)}" text-anchor="middle" transform="rotate(-90 ${fmtNum(dimWX + dimXOffset)} ${fmtNum((y[1] + y[2]) / 2)})">W=${Math.round(W)}mm</text>
-    <text class="pizza-dim-text" style="font-size:${fmtNum(dimFontSize)}px" x="${fmtNum((x[0] + x[1]) / 2)}" y="${fmtNum(dimYH - dimYOffset)}" text-anchor="middle">H=${Math.round(H)}mm</text>
+    <text class="pizza-dim-text" style="font-size:${fmtNum(dimFontSize)}px" x="${fmtNum((x[2] + x[3]) / 2)}" y="${fmtNum(dimYL - dimYOffset)}" text-anchor="middle">W=${Math.round(W)}mm</text>
+    <text class="pizza-dim-text" style="font-size:${fmtNum(dimFontSize)}px" x="${fmtNum((x[0] + x[1]) / 2)}" y="${fmtNum(dimYW - dimYOffset)}" text-anchor="middle">H=${Math.round(H)}mm</text>
+    <text class="pizza-dim-text" style="font-size:${fmtNum(dimFontSize)}px" x="${fmtNum(dimHX + dimXOffset)}" y="${fmtNum((y[1] + y[3]) / 2)}" text-anchor="middle" transform="rotate(-90 ${fmtNum(dimHX + dimXOffset)} ${fmtNum((y[1] + y[3]) / 2)})">L=${Math.round(L)}mm</text>
   `;
 }
+
 function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value));
 }
@@ -532,6 +548,8 @@ function getBoxDefaultDimensions(type) {
   return { L: 0, W: 0, H: 0 };
 }
 
+// 切换箱型时，把 L/W/H 输入框清空，用该箱型的默认值当占位文字显示
+// 注意：数量框(qty)这里特意不设默认值，保持空白只显示提示文字，跟原有做法一致
 function applyBoxDefaultInputs(type) {
   const dims = getBoxDefaultDimensions(type);
   const lengthInput = document.getElementById("length");
@@ -545,30 +563,14 @@ function applyBoxDefaultInputs(type) {
   lengthInput.placeholder = dims.L || "";
   widthInput.placeholder = dims.W || "";
   heightInput.placeholder = dims.H || "";
-
-  document.getElementById("qty").value = 30;
 }
 
-function updateDimensionChips(L, W, H) {
-  document.getElementById("dimL").innerText = "L: " + (L > 0 ? L : "--") + " mm";
-  document.getElementById("dimW").innerText = "W: " + (W > 0 ? W : "--") + " mm";
-  document.getElementById("dimH").innerText = "H: " + (H > 0 ? H : "--") + " mm";
-  document.getElementById("dimType").innerText = "Type: " + (selectedBox || "--");
-}
-
-function getCurrentInputDimensions() {
-  const defaults = getBoxDefaultDimensions(selectedBox);
-  return {
-    L: parseFloat(document.getElementById("length").value) || defaults.L || 0,
-    W: parseFloat(document.getElementById("width").value) || defaults.W || 0,
-    H: parseFloat(document.getElementById("height").value) || defaults.H || 0
-  };
-}
-
+// 判断该箱型是否支持 ED(外径)/ID(内径)切换，目前只有 RSC Box 和 5 Panel Box 支持
 function supportsDimensionMode(type) {
   return type === "RSC Box" || type === "5 Panel Box";
 }
 
+// 根据当前选中的箱型，更新 ED/ID 按钮的显示状态
 function syncDimensionModeControls() {
   const block = document.getElementById("dimensionModeBlock");
   const edButton = document.getElementById("dimModeED");
@@ -603,6 +605,8 @@ function selectDimensionMode(mode) {
   calculatePrice();
 }
 
+// 如果当前是 ID(内径)模式，把用户输入的内径尺寸换算成外径尺寸用于报价计算；
+// ED(外径)模式直接原样返回，不做换算
 function getQuotationDimensions(boxType, L, W, H, layer) {
   if (selectedDimensionMode !== "ID") {
     return { L, W, H };
@@ -627,6 +631,133 @@ function getQuotationDimensions(boxType, L, W, H, layer) {
     W: W + allowance.W,
     H: H + allowance.H
   };
+}
+
+function updateDimensionChips(L, W, H) {
+  document.getElementById("dimL").innerText = "L: " + (L > 0 ? L : "--") + " mm";
+  document.getElementById("dimW").innerText = "W: " + (W > 0 ? W : "--") + " mm";
+  document.getElementById("dimH").innerText = "H: " + (H > 0 ? H : "--") + " mm";
+  document.getElementById("dimType").innerText = "Type: " + (selectedBox || "--");
+}
+
+function getCurrentInputDimensions() {
+  const defaults = getBoxDefaultDimensions(selectedBox);
+  return {
+    L: parseFloat(document.getElementById("length").value) || defaults.L || 0,
+    W: parseFloat(document.getElementById("width").value) || defaults.W || 0,
+    H: parseFloat(document.getElementById("height").value) || defaults.H || 0
+  };
+}
+
+function syncPreviewPanelHeading() {
+  const title = document.getElementById("previewPanelTitle");
+  const subtitle = document.getElementById("previewPanelSubtitle");
+
+  if (!title || !subtitle) {
+    return;
+  }
+
+  if (previewMode === "3d") {
+    title.textContent = "3D Preview";
+    subtitle.textContent = "Parametric folding preview with live L/W/H updates";
+  } else {
+    title.textContent = "2D SVG Preview";
+    subtitle.textContent = "Parametric die line with live L/W/H updates";
+  }
+}
+
+function syncPreviewModeButtons() {
+  const btn2D = document.getElementById("previewMode2D");
+  const btn3D = document.getElementById("previewMode3D");
+  const note = document.getElementById("previewNote");
+
+  if (!btn2D || !btn3D || !note) {
+    return;
+  }
+
+  btn2D.classList.toggle("active", previewMode === "2d");
+  btn3D.classList.toggle("active", previewMode === "3d");
+
+  const supports3D = selectedBox === "RSC Box" || selectedBox === "5 Panel Box" || selectedBox === "Pizza Box" || selectedBox === "Gift Box";
+  btn3D.disabled = !supports3D;
+
+  if (previewMode === "3d") {
+    let label3D = "3D preview is currently available for RSC Box, 5 Panel Box, Pizza Box, and Gift Box only.";
+    if (selectedBox === "RSC Box") {
+      label3D = "RSC Box 3D preview: drag to rotate, pause to zoom, and use the slider to inspect any folding frame.";
+    } else if (selectedBox === "5 Panel Box") {
+      label3D = "5 Panel Box 3D preview: drag to rotate and zoom to inspect the flat die line. Folding animation is coming soon.";
+    } else if (selectedBox === "Pizza Box") {
+      label3D = "Pizza Box 3D preview: drag to rotate, pause to zoom, and use the slider to inspect any folding frame.";
+    } else if (selectedBox === "Gift Box") {
+      label3D = "Gift Box 3D preview: drag to rotate, pause to zoom, and use the slider to inspect any folding frame.";
+    }
+    note.textContent = label3D;
+  } else {
+    note.textContent = "Pizza Box + RSC Box 2D preview uses your provided architecture and redraws lines in real time from your inputs.";
+  }
+}
+
+function applyPreviewModeVisibility() {
+  const stage2D = document.getElementById("previewStage");
+  const stage3D = document.getElementById("preview3DStage");
+
+  if (!stage2D || !stage3D) {
+    return;
+  }
+
+  const show3D = previewMode === "3d";
+  stage2D.classList.toggle("is-hidden", show3D);
+  stage3D.classList.toggle("is-hidden", !show3D);
+}
+
+function switchPreviewMode(mode) {
+  previewMode = mode === "3d" ? "3d" : "2d";
+  syncPreviewModeButtons();
+  syncPreviewPanelHeading();
+  applyPreviewModeVisibility();
+  renderActivePreview();
+}
+
+function render3DPreview() {
+  const dims = getCurrentInputDimensions();
+
+  if (selectedBox === "RSC Box") {
+    window.RSC3DPreview.mountRSC(dims);
+    updateDimensionChips(dims.L, dims.W, dims.H);
+    return;
+  }
+
+  if (selectedBox === "5 Panel Box") {
+    window.FivePanel3DPreview.mountFivePanel(dims);
+    updateDimensionChips(dims.L, dims.W, dims.H);
+    return;
+  }
+
+  if (selectedBox === "Pizza Box") {
+    window.Pizza3DPreview.mountPizza(dims);
+    updateDimensionChips(dims.L, dims.W, dims.H);
+    return;
+  }
+
+  if (selectedBox === "Gift Box") {
+    window.Gift3DPreview.mountGift(dims);
+    updateDimensionChips(dims.L, dims.W, dims.H);
+    return;
+  }
+
+  window.RSC3DPreview.showUnsupported("3D preview is currently available for RSC Box, 5 Panel Box, Pizza Box, and Gift Box only.");
+  updateDimensionChips(dims.L, dims.W, dims.H);
+}
+
+function renderActivePreview() {
+  if (previewMode === "3d") {
+    render3DPreview();
+    return;
+  }
+
+  window.RSC3DPreview.hide();
+  render2DPreview();
 }
 
 function selectBox(type, img) {
@@ -658,12 +789,21 @@ function selectBox(type, img) {
   applyBoxDefaultInputs(type);
   syncDimensionModeControls();
 
-  render2DPreview();
+  previewMode = "2d";
+  syncPreviewModeButtons();
+  syncPreviewPanelHeading();
+  applyPreviewModeVisibility();
+  renderActivePreview();
 }
 
 function goBack() {
   document.getElementById("page1").style.display = "block";
   document.getElementById("page2").style.display = "none";
+  previewMode = "2d";
+  syncPreviewModeButtons();
+  syncPreviewPanelHeading();
+  applyPreviewModeVisibility();
+  window.RSC3DPreview.hide();
 }
 
 function selectLayer(btn, layer) {
@@ -719,12 +859,13 @@ function calculatePrice() {
   const inputH = parseFloat(document.getElementById("height").value);
   const quantity = parseFloat(document.getElementById("qty").value);
 
-  render2DPreview();
+  renderActivePreview();
 
   if (!inputL || !inputW || !inputH || !quantity || !selectedMaterialFactor) {
     return;
   }
 
+  // ED(外径)模式下 L/W/H 直接用；ID(内径)模式下换算成外径尺寸再往下算
   const quoteDims = supportsDimensionMode(selectedBox)
     ? getQuotationDimensions(selectedBox, inputL, inputW, inputH, selectedLayer)
     : { L: inputL, W: inputW, H: inputH };
@@ -778,29 +919,7 @@ function calculatePrice() {
       return;
     }
   }
-
-  if (selectedBox === 'Gift Box') {
-    const maxW = L;
-    if (L < JLC_GIFT_MODEL.limits.L.min || L > JLC_GIFT_MODEL.limits.L.max) {
-      document.getElementById('result').innerHTML =
-        "<span style='color:#bc1f35;font-weight:700'>Gift Box length must be between " +
-        JLC_GIFT_MODEL.limits.L.min + ' mm and ' + JLC_GIFT_MODEL.limits.L.max + ' mm.</span>';
-      return;
-    }
-    if (W < JLC_GIFT_MODEL.limits.W.min || W > maxW) {
-      document.getElementById('result').innerHTML =
-        "<span style='color:#bc1f35;font-weight:700'>Gift Box width must be between " +
-        JLC_GIFT_MODEL.limits.W.min + ' mm and ' + (Math.round(maxW * 100) / 100) + ' mm.</span>';
-      return;
-    }
-    if (H < JLC_GIFT_MODEL.limits.H.min || H > JLC_GIFT_MODEL.limits.H.max) {
-      document.getElementById('result').innerHTML =
-        "<span style='color:#bc1f35;font-weight:700'>Gift Box height must be between " +
-        JLC_GIFT_MODEL.limits.H.min + ' mm and ' + JLC_GIFT_MODEL.limits.H.max + ' mm.</span>';
-      return;
-    }
-  }
-  if ((selectedBox === "Pizza Box" || selectedBox === "5 Panel Box" || selectedBox === "RSC Box" || selectedBox === "Gift Box") && W > L) {
+  if ((selectedBox === "Pizza Box" || selectedBox === "5 Panel Box" || selectedBox === "RSC Box") && W > L) {
     document.getElementById("result").innerHTML =
       "<span style='color:#bc1f35;font-weight:700'>Width cannot be greater than Length for this box type.</span>";
     return;
@@ -841,10 +960,11 @@ function calculatePrice() {
   const total = discountedPrice * quantity;
   let discountText = "";
   if (discountRate > 0) {
-    discountText = "<br>Discount: " + (discountRate * 100) + "% " +
+    discountText = "Discount: " + (discountRate * 100) + "% " +
       "<span style='background:#00a79d;color:white;padding:3px 8px;border-radius:999px;font-size:12px;'>APPROVED</span>";
   }
 
+  // 物流运费预估：按箱型算出打包后的包裹尺寸，再推算重量、运费和包裹数量
   let logisticsHtml = "";
   if (selectedBox === "RSC Box" || selectedBox === "5 Panel Box" || selectedBox === "Pizza Box" || selectedBox === "Gift Box") {
     const parcelSize = selectedBox === "RSC Box"
@@ -875,6 +995,7 @@ function calculatePrice() {
       '</div>';
   }
 
+  // 有 ED/ID 切换的箱型才显示标注，其余箱型统一按 ID 显示（跟原逻辑一致，只是没有切换按钮）
   const dimensionType = supportsDimensionMode(selectedBox) ? selectedDimensionMode : "ID";
 
   const priceSummaryHtml =
@@ -887,7 +1008,8 @@ function calculatePrice() {
     '<div class="result-row">Material : <b>' + selectedLayer + ' Layer, ' + selectedMaterialFactor.name + '</b></div>' +
     '<div class="result-row">Unit Price : <b>RM ' + discountedPrice.toFixed(2) + '</b></div>' +
     '<div class="result-row">Total Price : <b>RM ' + total.toFixed(2) + '</b></div>' +
-    (discountText ? '<div class="result-note">' + discountText.replace('<br>', '') + '</div>' : '') +
+    '<div class="result-note">Delivery fee is an estimate; actual fee is confirmed upon order.</div>' +
+    (discountText ? '<div class="result-note">' + discountText + '</div>' : '') +
     '<div class="result-note">Production Time: <b>5~7 working days</b></div>' +
     '</div>';
 
@@ -1603,95 +1725,52 @@ async function createGiftTemplateSVG(L, W, H) {
 }
 
 async function createFivePanelTemplateSVG(L, W, H) {
-  const l = clamp(valueOrDefault(L, 150), 30, 1200);
-  const w = clamp(valueOrDefault(W, 50), 20, 600);
-  const h = clamp(valueOrDefault(H, 200), 30, 800);
+  // 2026-07-02 修正：默认值和范围之前跟错误的 refDims 是同一套错位（L/W/H 循环错位），
+  // 现在跟 FIVE_PANEL_REFERENCE_TEMPLATE.refDims 修正后的角色对齐。
+  const l = clamp(valueOrDefault(L, 200), 30, 600);
+  const w = clamp(valueOrDefault(W, 150), 30, 500);
+  const h = clamp(valueOrDefault(H, 50), 20, 300);
 
-  const radius = 3;
-  const margin = 40;
+  const template = await loadFivePanelReferenceTemplate();
+  const ref = FIVE_PANEL_REFERENCE_TEMPLATE;
+  const axes = buildFivePanelTargetAxes(l, w, h);
 
-  const x0 = margin;
-  const x1 = x0 + h;
-  const x2 = x1 + l;
-  const x3 = x2 + h;
+  const mapX = (x) => mapAxisPiecewise(x, ref.baseX, axes.targetX);
+  const mapY = (y) => mapAxisPiecewise(y, ref.baseY, axes.targetY);
 
-  const y0 = margin;
-  const y1 = y0 + h;
-  const y2 = y1 + w;
-  const y3 = y2 + h;
-  const y4 = y3 + w;
-  const y5 = y4 + h;
+  const lineSvg = template.lineElements.map((line) => {
+    const cls = classifyFivePanelLine(line);
+    return `<line class="${cls}" x1="${fmtNum(mapX(line.x1))}" y1="${fmtNum(mapY(line.y1))}" x2="${fmtNum(mapX(line.x2))}" y2="${fmtNum(mapY(line.y2))}"></line>`;
+  }).join("\n");
 
-  const targetAxes = {
-    targetX: [x0, x1, x2, x3],
-    targetY: [y0, y1, y2, y3, y4, y5]
-  };
+  const pathSvg = template.pathElements.map((pathItem) => {
+    const cls = classifyFivePanelPath(pathItem);
+    const td = transformPathData(pathItem.d, mapX, mapY);
+    return `<path class="${cls}" d="${td}"></path>`;
+  }).join("\n");
 
-  const rowTops = [y0, y1, y2, y3, y4];
-  const rowBottoms = [y1, y2, y3, y4, y5];
-  const rowHeights = [h, w, h, w, h];
+  const dimOverlay = buildFivePanelDimOverlay(axes, l, w, h);
 
-  const cutLines = [];
-  const foldLines = [];
-  const cutPaths = [];
-
-  const addLine = (bucket, xStart, yStart, xEnd, yEnd) => {
-    bucket.push(`<line x1="${fmtNum(xStart)}" y1="${fmtNum(yStart)}" x2="${fmtNum(xEnd)}" y2="${fmtNum(yEnd)}"></line>`);
-  };
-
-  const addArc = (dir, cx, cy, r) => {
-    const yStart = cy - r;
-    const yEnd = cy + r;
-    const sweep = dir === 'right' ? 1 : 0;
-    cutPaths.push(`<path d="M ${fmtNum(cx)} ${fmtNum(yStart)} A ${fmtNum(r)} ${fmtNum(r)} 0 0 ${sweep} ${fmtNum(cx)} ${fmtNum(yEnd)}"></path>`);
-  };
-
-  for (let i = 0; i < rowHeights.length; i++) {
-    const rowTop = rowTops[i];
-    const rowBottom = rowBottoms[i];
-    const topInset = i === 0 ? 0 : radius;
-    const bottomInset = i === rowHeights.length - 1 ? 0 : radius;
-
-    const sideTop = rowTop + topInset;
-    const sideBottom = rowBottom - bottomInset;
-
-    addLine(cutLines, x0, sideTop, x1, sideTop);
-    addLine(cutLines, x0, sideTop, x0, sideBottom);
-    addLine(cutLines, x0, sideBottom, x1, sideBottom);
-
-    addLine(cutLines, x2, sideTop, x3, sideTop);
-    addLine(cutLines, x3, sideTop, x3, sideBottom);
-    addLine(cutLines, x2, sideBottom, x3, sideBottom);
-
-    addLine(foldLines, x1, rowTop, x1, rowBottom);
-    addLine(foldLines, x2, rowTop, x2, rowBottom);
-
-    if (i === 0) {
-      addLine(cutLines, x1, rowTop, x2, rowTop);
-    }
-
-    if (i === rowHeights.length - 1) {
-      addLine(cutLines, x1, rowBottom, x2, rowBottom);
-    } else {
-      addLine(foldLines, x1, rowBottom, x2, rowBottom);
-      addArc('right', x1, rowBottom, radius);
-      addArc('left', x2, rowBottom, radius);
-    }
-  }
-
-  const dimOverlay = buildFivePanelDimOverlay(targetAxes, l, w, h);
+  const allX = [
+    mapX(ref.viewBox.x),
+    mapX(ref.viewBox.x + ref.viewBox.width)
+  ];
+  const allY = [
+    mapY(ref.viewBox.y),
+    mapY(ref.viewBox.y + ref.viewBox.height)
+  ];
 
   const vbPad = 28;
-  const vbXRaw = x0 - vbPad;
-  const vbYRaw = y0 - vbPad;
-  const vbWRaw = (x3 - x0) + (vbPad * 2);
-  const vbHRaw = (y5 - y0) + (vbPad * 2);
+  const vbXRaw = Math.min(...allX) - vbPad;
+  const vbYRaw = Math.min(...allY) - vbPad;
+  const vbWRaw = Math.abs(allX[1] - allX[0]) + (vbPad * 2);
+  const vbHRaw = Math.abs(allY[1] - allY[0]) + (vbPad * 2);
 
   return {
     html: `
       <div class="pizza-svg-stage">
         <div class="pizza-svg-canvas">
-          <svg class="pizza-svg-plot" viewBox="${fmtNum(vbXRaw)} ${fmtNum(vbYRaw)} ${fmtNum(vbWRaw)} ${fmtNum(vbHRaw)}" role="img" aria-label="FPF die line">
+          <svg class="pizza-svg-plot" viewBox="${fmtNum(vbXRaw)} ${fmtNum(vbYRaw)} ${fmtNum(vbWRaw)} ${fmtNum(vbHRaw)}" role="img" aria-label="5 Panel Box die line">
             <defs>
               <marker id="pizzaArrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
                 <path d="M0,0 L10,5 L0,10 z" fill="#2f6dff"></path>
@@ -1699,8 +1778,8 @@ async function createFivePanelTemplateSVG(L, W, H) {
             </defs>
 
             <style>
-              .five-cut {
-                fill: none;
+              .five-inner {
+                fill: rgba(255, 255, 255, 0.28);
                 stroke: #7fc463;
                 stroke-width: 1.8;
                 stroke-linecap: round;
@@ -1715,24 +1794,20 @@ async function createFivePanelTemplateSVG(L, W, H) {
               }
             </style>
 
-            <g class="five-cut">
-              ${cutLines.join("\n")}
-              ${cutPaths.join("\n")}
-            </g>
-            <g class="five-fold">
-              ${foldLines.join("\n")}
-            </g>
+            ${lineSvg}
+            ${pathSvg}
             ${dimOverlay}
           </svg>
         </div>
         <div class="pizza-svg-caption">
-          FPF dieline (based on your Die-CUT FPF.jsx): L ${Math.round(l)} x W ${Math.round(w)} x H ${Math.round(h)} mm
+          5 Panel Box dieline (from your provided SVG template): L${Math.round(l)} x W${Math.round(w)} x D${Math.round(h)} mm
         </div>
       </div>
     `,
     dims: { L: l, W: w, H: h }
   };
 }
+
 function getPreviewSvgState(svg) {
   if (svg.__previewState) {
     return svg.__previewState;
@@ -1955,7 +2030,7 @@ async function render2DPreview() {
 
   if (selectedBox === "5 Panel Box") {
     const requestedBox = selectedBox;
-    stage.innerHTML = '<div class="preview-placeholder">Generating FPF dieline...</div>';
+    stage.innerHTML = '<div class="preview-placeholder">Loading 5 Panel Box SVG template...</div>';
   
     try {
       const fivePanel = await createFivePanelTemplateSVG(L, W, H);
@@ -1968,7 +2043,7 @@ async function render2DPreview() {
       initPreviewPanZoom(stage);
       updateDimensionChips(fivePanel.dims.L, fivePanel.dims.W, fivePanel.dims.H);
     } catch (err) {
-      stage.innerHTML = '<div class="preview-placeholder">Failed to generate FPF dieline.</div>';
+      stage.innerHTML = '<div class="preview-placeholder">Failed to load 5 Panel Box SVG template.</div>';
       console.error(err);
       updateDimensionChips(L, W, H);
     }
@@ -1986,39 +2061,31 @@ async function render2DPreview() {
 }
 
 ["length", "width", "height", "qty"].forEach((id) => {
-  document.getElementById(id).addEventListener("input", render2DPreview);
+  document.getElementById(id).addEventListener("input", renderActivePreview);
 });
 
-render2DPreview();
+document.getElementById("previewMode2D").addEventListener("click", () => {
+  switchPreviewMode("2d");
+});
+
+document.getElementById("previewMode3D").addEventListener("click", () => {
+  if (selectedBox !== "RSC Box" && selectedBox !== "5 Panel Box" && selectedBox !== "Pizza Box" && selectedBox !== "Gift Box") {
+    return;
+  }
+  switchPreviewMode("3d");
+});
+
+syncPreviewModeButtons();
+syncPreviewPanelHeading();
+applyPreviewModeVisibility();
+renderActivePreview();
 
 window.selectBox = selectBox;
 window.goBack = goBack;
 window.selectLayer = selectLayer;
-window.selectDimensionMode = selectDimensionMode;
 window.calculatePrice = calculatePrice;
-window.updateBoxPreview = render2DPreview;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+window.updateBoxPreview = renderActivePreview;
+window.switchPreviewMode = switchPreviewMode;
 
 
 
