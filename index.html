@@ -328,7 +328,6 @@ input:focus {
   font-size: 15px;
 }
 
-
 .result-section {
   background: rgba(255, 255, 255, 0.96);
   border: 1px solid #d7e4f7;
@@ -539,6 +538,163 @@ input:focus {
   font-size: 13px;
 }
 
+.preview-toolbar {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.preview-mode-btn {
+  border: 1px solid #d8e3f2;
+  background: #ffffff;
+  color: #12385d;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.preview-mode-btn:hover:not(:disabled) {
+  border-color: #0f63bd;
+  box-shadow: 0 8px 14px rgba(15, 99, 189, 0.12);
+}
+
+.preview-mode-btn.active {
+  border-color: #0f63bd;
+  background: linear-gradient(130deg, #1f74cf, #0d9fa0);
+  color: #fff;
+}
+
+.preview-mode-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.preview-stage.is-hidden {
+  display: none;
+}
+
+.preview-3d-stage {
+  width: 100%;
+  min-height: 430px;
+  border-radius: 12px;
+  border: 1px solid rgba(23, 62, 108, 0.2);
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  overflow: hidden;
+  position: relative;
+}
+
+.preview-3d-stage.is-hidden {
+  display: none;
+}
+
+.preview-3d-canvas {
+  width: 100%;
+  height: 430px;
+  display: block;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(15, 76, 129, 0.08), transparent 48%),
+    #f7fbff;
+}
+
+.preview-3d-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+  background: rgba(255, 255, 255, 0.72);
+  z-index: 2;
+}
+
+.preview-3d-overlay.is-hidden {
+  display: none;
+}
+
+.preview-3d-controls {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.preview-3d-controls.is-hidden {
+  display: none;
+}
+
+.preview-3d-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid #d8e3f2;
+  background: #fff;
+  color: #12385d;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-3d-btn:hover {
+  border-color: #0f63bd;
+}
+
+.preview-3d-btn.active {
+  border-color: #0f63bd;
+  background: linear-gradient(130deg, #1f74cf, #0d9fa0);
+  color: #fff;
+}
+
+.preview-3d-range {
+  flex: 1 1 220px;
+  appearance: none;
+  height: 6px;
+  border-radius: 999px;
+  background: #d5e4fb;
+  outline: none;
+}
+
+.preview-3d-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #1f74cf;
+  cursor: pointer;
+  border: none;
+}
+
+.preview-3d-range::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #1f74cf;
+  cursor: pointer;
+  border: none;
+}
+
+.preview-3d-hint {
+  width: 100%;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
 @media (max-width: 980px) {
   .hero,
   .workbench {
@@ -629,7 +785,7 @@ input:focus {
     <div class="card">
       <div class="selected-preview">
         <img id="selectedImage" alt="Selected box preview">
-      <div>
+        <div>
           <h2 id="selectedTitle" class="preview-title"></h2>
           <p class="preview-sub">Fill dimensions in mm and choose board spec to calculate.</p>
         </div>
@@ -642,16 +798,16 @@ input:focus {
       </div>
 
       <label for="length">Length (mm)</label>
-      <input type="number" id="length" min="1" placeholder="200" oninput="calculatePrice()">
+      <input type="number" id="length" min="1" placeholder="e.g. 200" oninput="calculatePrice()">
 
       <label for="width">Width (mm)</label>
-      <input type="number" id="width" min="1" placeholder="150" oninput="calculatePrice()">
+      <input type="number" id="width" min="1" placeholder="e.g. 150" oninput="calculatePrice()">
 
       <label for="height">Height (mm)</label>
-      <input type="number" id="height" min="1" placeholder="50" oninput="calculatePrice()">
+      <input type="number" id="height" min="1" placeholder="e.g. 50" oninput="calculatePrice()">
 
       <label for="qty">Quantity (Minimum 30)</label>
-      <input type="number" id="qty" min="30" step="1" value="30" oninput="calculatePrice()">
+      <input type="number" id="qty" min="30" step="1" placeholder="Minimum 30" oninput="calculatePrice()">
 
       <div class="option-block">
         <strong>Select Layer</strong><br>
@@ -671,7 +827,24 @@ input:focus {
           <p id="previewPanelSubtitle">Parametric die line with live L/W/H updates</p>
         </div>
         <div class="preview-stage" id="previewStage"></div>
-
+        
+        <div class="preview-3d-stage is-hidden" id="preview3DStage">
+          <canvas class="preview-3d-canvas" id="preview3DCanvas"></canvas>
+          <div class="preview-3d-overlay" id="preview3DOverlay">
+            3D preview is preparing...
+          </div>
+        </div>
+        
+        <div class="preview-3d-controls is-hidden" id="preview3DControls">
+          <button type="button" class="preview-3d-btn" id="preview3DPlayBtn" title="Play / Pause">▶</button>
+          <input type="range" id="preview3DRange" class="preview-3d-range" min="0" max="1000" step="1" value="0">
+          <button type="button" class="preview-3d-btn" id="preview3DResetBtn" title="Reset view">⌂</button>
+          <button type="button" class="preview-3d-btn" id="preview3DPanBtn" title="Pan tool (drag to move view)">✋</button>
+          <div class="preview-3d-hint" id="preview3DHint">
+            Drag to rotate. Zoom anytime, even during playback.
+          </div>
+        </div>
+        
         <div class="dim-row">
           <div class="dim-chip" id="dimL">L: -- mm</div>
           <div class="dim-chip" id="dimW">W: -- mm</div>
@@ -679,28 +852,44 @@ input:focus {
           <div class="dim-chip" id="dimType">Type: --</div>
         </div>
         
-
-        <p class="note" id="previewNote">2D preview will display real time from your inputs.</p>
+        <div class="preview-toolbar">
+          <button type="button" class="preview-mode-btn active" id="previewMode2D">2D</button>
+          <button type="button" class="preview-mode-btn" id="previewMode3D">3D</button>
+        </div>
+        
+        <p class="note" id="previewNote">Pizza Box + RSC Box 2D preview uses your provided architecture and redraws lines in real time from your inputs.</p>
       </div>
     </div>
   </div>
 </div>
 
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 
 <script src="scripts/models/pizza-template-b-model.js"></script>
 <script src="scripts/models/gift-box-template.js"></script>
 <script src="scripts/models/five-panel-template.js"></script>
 
+<script src="scripts/3d/3d-scene.js"></script>
+
+<script src="scripts/3d/rsc-3d-model.js"></script>
+<script src="scripts/3d/rsc-3d-player.js"></script>
+<script src="scripts/3d/rsc-3d-preview.js"></script>
+
+<script src="scripts/3d/five-panel-3d-model.js"></script>
+<script src="scripts/3d/five-panel-3d-player.js"></script>
+<script src="scripts/3d/five-panel-3d-preview.js"></script>
+
+<script src="scripts/3d/pizza-3d-model.js"></script>
+<script src="scripts/3d/pizza-3d-player.js"></script>
+<script src="scripts/3d/pizza-3d-preview.js"></script>
+
+<script src="scripts/3d/gift-3d-model.js"></script>
+<script src="scripts/3d/gift-3d-player.js"></script>
+<script src="scripts/3d/gift-3d-preview.js"></script>
 
 <script src="scripts/app.js"></script>
 
 </body>
 </html>
-
-
-
-
-
-
-
